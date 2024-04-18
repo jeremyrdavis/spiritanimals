@@ -1,4 +1,4 @@
-package io.arrogantprogrammer.spiritanimals;
+package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
 
 
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalService;
