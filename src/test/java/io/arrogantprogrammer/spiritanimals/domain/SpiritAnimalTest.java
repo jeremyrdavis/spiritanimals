@@ -1,12 +1,14 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
 import io.quarkus.test.junit.QuarkusTest;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,13 +19,20 @@ public class SpiritAnimalTest {
 
     static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalTest.class);
 
+
     /*
     * Test assigning a spirit animal
     */
     @Test
     public void testAssignSpiritAnimal() {
         LOGGER.info("Testing assign spirit animal");
-        SpiritAnimalAssignment spiritAnimalAssignment = SpiritAnimal.assignSpiritAnimal("Luke");
+        SpiritAnimal.addAnimal("cat");
+        SpiritAnimalAssignment spiritAnimalAssignment = null;
+        try {
+            spiritAnimalAssignment = SpiritAnimal.assignSpiritAnimal("Luke");
+        } catch (NoMoreAnimalNamesException e) {
+            assertNull(e);
+        }
         assertNotNull(spiritAnimalAssignment);
         assertEquals("Luke", spiritAnimalAssignment.getName());
         assertNotNull(spiritAnimalAssignment.getAnimal());
@@ -35,9 +44,8 @@ public class SpiritAnimalTest {
     @Test
     public void testAnimalName() {
         LOGGER.info("Testing random animal");
-        SpiritAnimal spiritAnimal = new SpiritAnimal();
-        spiritAnimal.addAnimal("cat");
-        Set<String> animalNames = spiritAnimal.getAnimalNames();
+        SpiritAnimal.addAnimal("cat");
+        Set<String> animalNames = SpiritAnimal.getAnimalNames();
         assertNotNull(animalNames);
         assertEquals(1, animalNames.size());
         assertEquals("cat", animalNames.iterator().next());

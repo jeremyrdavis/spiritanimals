@@ -20,7 +20,18 @@ public class SpiritAnimal {
         return animalNames;
     }
 
-    public static SpiritAnimalAssignment assignSpiritAnimal(String luke) {
-        return new SpiritAnimalAssignment("Luke", "cat");
+    static SpiritAnimalAssignment assignSpiritAnimal(final String name) throws NoMoreAnimalNamesException {
+        if(animalNames.isEmpty()) {
+            throw new NoMoreAnimalNamesException("No animals available");
+        }
+        int num = (int) (Math.random() * animalNames.size());
+        String animalName = randomAnimalName();
+        return new SpiritAnimalAssignment(name, animalName);
+    }
+
+    static private String randomAnimalName() {
+        int num = (int) (Math.random() * animalNames.size());
+        for(String animalName: animalNames) if (--num < 0) return animalName;
+        return null;
     }
 }
