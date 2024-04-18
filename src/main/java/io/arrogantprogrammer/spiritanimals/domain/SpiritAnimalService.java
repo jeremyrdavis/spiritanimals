@@ -1,5 +1,6 @@
-package io.arrogantprogrammer.spiritanimals;
+package io.arrogantprogrammer.spiritanimals.domain;
 
+import io.arrogantprogrammer.spiritanimals.AnimalRestClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;

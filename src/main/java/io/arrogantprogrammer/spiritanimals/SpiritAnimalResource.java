@@ -1,6 +1,8 @@
 package io.arrogantprogrammer.spiritanimals;
 
 
+import io.arrogantprogrammer.spiritanimals.domain.AnimalJson;
+import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
