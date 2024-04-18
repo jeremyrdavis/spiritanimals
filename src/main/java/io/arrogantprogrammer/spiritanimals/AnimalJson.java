@@ -1,5 +1,7 @@
 package io.arrogantprogrammer.spiritanimals;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * {
  *         "name": "Abyssinian",
@@ -33,45 +35,5 @@ package io.arrogantprogrammer.spiritanimals;
  *         }
  *     },
  */
-public class Animal {
-
-    String name;
-
-    Taxonomy taxonomy;
-
-    String[] locations;
-
-    Characteristics characteristics;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Taxonomy getTaxonomy() {
-        return taxonomy;
-    }
-
-    public void setTaxonomy(Taxonomy taxonomy) {
-        this.taxonomy = taxonomy;
-    }
-
-    public String[] getLocations() {
-        return locations;
-    }
-
-    public void setLocations(String[] locations) {
-        this.locations = locations;
-    }
-
-    public Characteristics getCharacteristics() {
-        return characteristics;
-    }
-
-    public void setCharacteristics(Characteristics characteristics) {
-        this.characteristics = characteristics;
-    }
+public record AnimalJson(String name, @JsonProperty("taxonomy") TaxonomyJson taxonomyJson, String[] locations, @JsonProperty("characteristics") CharacteristicsJson characteristicsJson) {
 }

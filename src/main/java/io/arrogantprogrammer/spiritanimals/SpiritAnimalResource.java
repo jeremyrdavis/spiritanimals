@@ -16,7 +16,7 @@ public class SpiritAnimalResource {
     SpiritAnimalService spiritAnimalService;
 
     @GET
-    public Animal getAnimal() {
+    public AnimalJson getAnimal() {
         LOGGER.info("Getting animal");
         return spiritAnimalService.getAnimal();
     }

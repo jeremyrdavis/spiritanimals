@@ -14,9 +14,9 @@ import java.util.List;
 public interface AnimalRestClient {
 
     @GET
-    public Animal getAnimal(@RestQuery String name);
+    public AnimalJson getAnimal(@RestQuery String name);
 
     @GET
-    public List<Animal> getAnimals(@RestQuery String name);
+    public List<AnimalJson> getAnimals(@RestQuery String name);
 
 }

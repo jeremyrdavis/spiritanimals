@@ -12,16 +12,18 @@ public class SpiritAnimalService {
 
     static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalService.class);
 
+    static final String[] letters = new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+
     @RestClient
     AnimalRestClient animalRestClient;
 
-    public Animal getAnimal() {
+    public AnimalJson getAnimal() {
 
-        List<Animal> animalList = animalRestClient.getAnimals("cat");
-        LOGGER.debug("retrieved {} animals", animalList.size());
+        List<AnimalJson> animalJsonList = animalRestClient.getAnimals("cat");
+        LOGGER.debug("retrieved {} animals", animalJsonList.size());
 
-        if(animalList.size() > 0) {
-            return animalList.get(0);
+        if(animalJsonList.size() > 0) {
+            return animalJsonList.get(0);
         } else {
             return null;
         }

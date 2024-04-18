@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @QuarkusTest
-public class SpiritAnimalServiceTest {
+public class SpiritAnimalServiceTestJson {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalServiceTest.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalServiceTestJson.class);
 
     @Inject
     SpiritAnimalService spiritAnimalService;
@@ -19,7 +19,7 @@ public class SpiritAnimalServiceTest {
     @Test
     public void testGetAnimal() {
         LOGGER.info("Testing getAnimal");
-        Animal animal = spiritAnimalService.getAnimal();
-        assertNotNull(animal);
+        AnimalJson animalJson = spiritAnimalService.getAnimal();
+        assertNotNull(animalJson);
     }
 }
