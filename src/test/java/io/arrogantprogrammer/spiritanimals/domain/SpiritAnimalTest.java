@@ -1,10 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,46 +12,31 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SpiritAnimalTest {
 
     static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalTest.class);
-
 
     /*
     * Test assigning a spirit animal
     */
     @Test
+    @Order(1)
     public void testAssignSpiritAnimal() {
         LOGGER.info("Testing assign spirit animal");
         SpiritAnimal.addAnimal("cat");
-        SpiritAnimalAssignment spiritAnimalAssignment = null;
-        try {
-            spiritAnimalAssignment = SpiritAnimal.assignSpiritAnimal("Luke");
-        } catch (NoMoreAnimalNamesException e) {
-            assertNull(e);
-        }
-        assertNotNull(spiritAnimalAssignment);
-        assertEquals("Luke", spiritAnimalAssignment.getName());
-        assertNotNull(spiritAnimalAssignment.getAnimal());
-    }
-
-    /*
-    * Test that we can get a random animal
-     */
-    @Test
-    public void testAnimalName() {
-        LOGGER.info("Testing random animal");
-        SpiritAnimal.addAnimal("cat");
-        Set<String> animalNames = SpiritAnimal.getAnimalNames();
-        assertNotNull(animalNames);
-        assertEquals(1, animalNames.size());
-        assertEquals("cat", animalNames.iterator().next());
+        SpiritAnimalAssignmentResult spiritAnimalAssignmentResult = SpiritAnimal.assignSpiritAnimal("Luke");
+        assertNotNull(spiritAnimalAssignmentResult);
+        assertEquals("Luke", spiritAnimalAssignmentResult.spiritAnimalAssignment().getName());
+        assertNotNull(spiritAnimalAssignmentResult.spiritAnimalAssignment().getAnimalName());
+        assertEquals(0, spiritAnimalAssignmentResult.remainingAnimalNames());
     }
 
     /*
     * Test that we can get multiple animals at the same time
     */
     @Test
+    @Order(2)
     public void testAnimalNames() {
         LOGGER.info("Testing random animal");
         SpiritAnimal.addAnimals(new HashSet<>(Arrays.asList("cat")));

@@ -1,11 +1,12 @@
 package io.arrogantprogrammer.spiritanimals;
 
 
-import io.arrogantprogrammer.spiritanimals.domain.AnimalJson;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalService;
+import io.arrogantprogrammer.spiritanimals.domain.SpritAnimalAssignmentRecord;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.QueryParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +19,9 @@ public class SpiritAnimalResource {
     SpiritAnimalService spiritAnimalService;
 
     @GET
-    public AnimalJson getAnimal() {
+    @Path("/assign")
+    public SpritAnimalAssignmentRecord getAnimal(@QueryParam("name") final String name) {
         LOGGER.info("Getting animal");
-        return spiritAnimalService.getAnimal();
+        return spiritAnimalService.assignSpiritAnimalFor(name);
     }
 }

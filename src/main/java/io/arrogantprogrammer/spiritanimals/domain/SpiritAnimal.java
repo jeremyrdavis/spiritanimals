@@ -1,8 +1,6 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class SpiritAnimal {
 
@@ -16,22 +14,25 @@ public class SpiritAnimal {
         animalNames.forEach(SpiritAnimal::addAnimal);
     }
 
+    static int remainingAnimalNames() {
+        return animalNames.size();
+    }
     static Set<String> getAnimalNames() {
         return animalNames;
     }
 
-    static SpiritAnimalAssignment assignSpiritAnimal(final String name) throws NoMoreAnimalNamesException {
-        if(animalNames.isEmpty()) {
-            throw new NoMoreAnimalNamesException("No animals available");
+    static SpiritAnimalAssignmentResult assignSpiritAnimal(final String name) {
+
+        if (animalNames.isEmpty()) {
+            return new SpiritAnimalAssignmentResult(new SpiritAnimalAssignment(name, "Moose"), animalNames.size());
+        }else{
+            String animalName = randomAnimalName();
+            animalNames.remove(animalName);
+            return new SpiritAnimalAssignmentResult(new SpiritAnimalAssignment(name, animalName), animalNames.size());
         }
-        int num = (int) (Math.random() * animalNames.size());
-        String animalName = randomAnimalName();
-        return new SpiritAnimalAssignment(name, animalName);
     }
 
     static private String randomAnimalName() {
-        int num = (int) (Math.random() * animalNames.size());
-        for(String animalName: animalNames) if (--num < 0) return animalName;
-        return null;
+        return animalNames.stream().toList().get(new Random().nextInt(animalNames.size()));
     }
 }
