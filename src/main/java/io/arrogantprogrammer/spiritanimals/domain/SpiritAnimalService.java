@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,7 +22,6 @@ public class SpiritAnimalService {
 
     static final List<String> letters = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
 
-    int remainingAnimalNames = 0;
     @RestClient
     AnimalRestClient animalRestClient;
 
@@ -32,10 +32,9 @@ public class SpiritAnimalService {
         LOGGER.info("Assigning spirit animal for {}", name);
 
         // if we are out of names get more
-        if(remainingAnimalNames == 0) {
+        if(SpiritAnimal.remainingAnimalNames() < 50) {
             Set<String> animalNames = getMoreAnimalNames();
             SpiritAnimal.addAnimals(animalNames);
-            remainingAnimalNames = SpiritAnimal.remainingAnimalNames();
         }
 
         // assign the spirit animal
@@ -48,9 +47,15 @@ public class SpiritAnimalService {
 
     private Set<String> getMoreAnimalNames() {
 
-        return animalRestClient.getAnimals(randomLetter()).stream().map(animalJson -> {
-            return animalJson.name();
-        }).collect(Collectors.toSet());
+        Set<String> animalNames = new HashSet<>();
+
+        while(SpiritAnimal.remainingAnimalNames() < 50) {
+            animalRestClient.getAnimals(randomLetter()).forEach(animalJson -> {
+                animalNames.add(animalJson.name());
+            });
+        }
+        LOGGER.debug("retrieved {} new animal names", animalNames.size());
+        return animalNames;
     }
 
     private String randomLetter() {

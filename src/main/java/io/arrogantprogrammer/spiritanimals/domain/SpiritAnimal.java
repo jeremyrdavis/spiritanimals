@@ -6,12 +6,17 @@ public class SpiritAnimal {
 
     static Set<String> animalNames = new HashSet<String>();
 
+    static Set<String> assignedAnimalNames = new HashSet<String>();
+
     static void addAnimal(String animalName) {
         animalNames.add(animalName);
     }
 
     static void addAnimals(Collection<String> animalNames) {
-        animalNames.forEach(SpiritAnimal::addAnimal);
+        animalNames.forEach(name -> {
+            if(!assignedAnimalNames.contains(name))
+                SpiritAnimal.addAnimal(name);
+        });
     }
 
     static int remainingAnimalNames() {
@@ -28,6 +33,7 @@ public class SpiritAnimal {
         }else{
             String animalName = randomAnimalName();
             animalNames.remove(animalName);
+            assignedAnimalNames.add(animalName);
             return new SpiritAnimalAssignmentResult(new SpiritAnimalAssignment(name, animalName), animalNames.size());
         }
     }

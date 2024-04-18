@@ -4,6 +4,7 @@ package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.domain.SpritAnimalAssignmentRecord;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
@@ -20,6 +21,7 @@ public class SpiritAnimalResource {
 
     @GET
     @Path("/assign")
+    @Transactional
     public SpritAnimalAssignmentRecord getAnimal(@QueryParam("name") final String name) {
         LOGGER.info("Getting animal");
         return spiritAnimalService.assignSpiritAnimalFor(name);
