@@ -25,4 +25,12 @@ public class SpiritAnimalServiceOpenAITest {
         assertNotNull(whatIsResult);
         assertEquals(OpenAITestUtils.WHAT_IS_A_MOOSE, whatIsResult);
     }
+
+    @Test
+    public void testWriteAPoem() {
+        LOGGER.info("Testing writeAPoem");
+        String writeAPoemResult = spiritAnimalService.writeAPoem("moose");
+        assertNotNull(writeAPoemResult);
+        assertEquals(OpenAITestUtils.MOOSE_POEM, writeAPoemResult);
+    }
 }

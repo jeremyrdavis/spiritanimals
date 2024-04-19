@@ -49,6 +49,18 @@ public class SpiritAnimalService {
         return new SpritAnimalAssignmentRecord(spiritAnimalAssignmentResult.spiritAnimalAssignment().id, spiritAnimalAssignmentResult.spiritAnimalAssignment().name, spiritAnimalAssignmentResult.spiritAnimalAssignment().animalName);
     }
 
+    public String whatIs(String animalName) {
+        LOGGER.debug("What is {}", animalName);
+        return openAIService.whatIs(aOrAn(animalName), animalName);
+    }
+
+    public String writeAPoem(String animalName) {
+        String poet = POET.randomPoet();
+        LOGGER.debug("Write a poem about {} in the style of {}", animalName, poet);
+        return openAIService.writeAPoem(animalName, poet);
+    }
+
+
     private Set<String> getMoreAnimalNames() {
 
         Set<String> animalNames = new HashSet<>();
@@ -64,10 +76,6 @@ public class SpiritAnimalService {
     }
 
 
-    public String whatIs(String animalName) {
-        LOGGER.debug("What is {}", animalName);
-        return openAIService.whatIs(aOrAn(animalName), animalName);
-    }
 
     private String aOrAn(String animalName) {
         char firstChar = Character.toLowerCase(animalName.charAt(0));
