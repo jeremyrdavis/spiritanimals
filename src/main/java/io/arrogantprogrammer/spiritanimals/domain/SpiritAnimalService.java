@@ -68,6 +68,7 @@ public class SpiritAnimalService {
 
 
     private Set<String> getMoreAnimalNames() {
+        LOGGER.debug("Getting more animal names");
 
         Set<String> animalNames = new HashSet<>();
         animalRestClient.getAnimals(randomLetter()).forEach(animalJson -> {

@@ -1,7 +1,9 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.smallrye.common.annotation.RunOnVirtualThread;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.parallel.Isolated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,8 +13,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@QuarkusTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Isolated
 public class SpiritAnimalTest {
 
     static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalTest.class);
@@ -23,13 +24,16 @@ public class SpiritAnimalTest {
     @Test
     @Order(1)
     public void testAssignSpiritAnimal() {
+
+        int currentNumberOfNames = SpiritAnimal.remainingAnimalNames();
+        int expectedNumberOfNames = currentNumberOfNames -1;
+
         LOGGER.info("Testing assign spirit animal");
-        SpiritAnimal.addAnimal("cat");
         SpiritAnimalAssignmentResult spiritAnimalAssignmentResult = SpiritAnimal.assignSpiritAnimal("Luke");
         assertNotNull(spiritAnimalAssignmentResult);
         assertEquals("Luke", spiritAnimalAssignmentResult.spiritAnimalAssignment().getName());
         assertNotNull(spiritAnimalAssignmentResult.spiritAnimalAssignment().getAnimalName());
-        assertEquals(0, spiritAnimalAssignmentResult.remainingAnimalNames());
+        assertEquals(expectedNumberOfNames, spiritAnimalAssignmentResult.remainingAnimalNames());
     }
 
     /*
@@ -37,20 +41,26 @@ public class SpiritAnimalTest {
     */
     @Test
     @Order(2)
-    public void testAnimalNames() {
-        LOGGER.info("Testing random animal");
-        SpiritAnimal.addAnimals(new HashSet<>(Arrays.asList("cat")));
+    public void testAddingAnimalNames() {
+
+        LOGGER.info("Testing adding animal names");
+
+        int currentNumberOfNames = SpiritAnimal.remainingAnimalNames();
+        int expectedNumberOfNames = currentNumberOfNames + 1;
+
+        SpiritAnimal.addAnimals(new HashSet<>(Arrays.asList("dog")));
         Set<String> animalNames = SpiritAnimal.getAnimalNames();
         assertNotNull(animalNames);
-        assertEquals(1, animalNames.size());
-        assertEquals("cat", animalNames.iterator().next());
+        assertEquals(expectedNumberOfNames, animalNames.size());
+        assertTrue(animalNames.contains("dog"));
 
-        SpiritAnimal.addAnimals(new HashSet<>(Arrays.asList("dog", "pig", "cat")));
+        int expectedNumberOfNamesAfterAdding3 = expectedNumberOfNames + 3;
+        SpiritAnimal.addAnimals(new HashSet<>(Arrays.asList("horse", "pig", "cow")));
         Set<String> updatedAnimalNames = SpiritAnimal.getAnimalNames();
         assertNotNull(updatedAnimalNames);
-        assertEquals(3, updatedAnimalNames.size());
-        assertTrue(updatedAnimalNames.contains("cat"));
-        assertTrue(updatedAnimalNames.contains("dog"));
+        assertEquals(expectedNumberOfNamesAfterAdding3, updatedAnimalNames.size(), "Should have 4 animals: dog, horse, pig, cow");
+        assertTrue(updatedAnimalNames.contains("cow"));
+        assertTrue(updatedAnimalNames.contains("horse"));
         assertTrue(updatedAnimalNames.contains("pig"));
     }
 

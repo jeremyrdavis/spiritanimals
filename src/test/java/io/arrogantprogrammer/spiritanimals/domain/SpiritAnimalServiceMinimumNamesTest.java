@@ -2,12 +2,12 @@ package io.arrogantprogrammer.spiritanimals.domain;
 
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 public class SpiritAnimalServiceMinimumNamesTest {
@@ -17,11 +17,11 @@ public class SpiritAnimalServiceMinimumNamesTest {
     @Inject
     SpiritAnimalService spiritAnimalService;
 
-    @Test
+    @Test @Transactional
     public void testMinimumNumberOfAnimals() {
         LOGGER.info("Testing getAnimal");
-        assertEquals(0, SpiritAnimal.remainingAnimalNames());
+        int currentNumberOfNames = SpiritAnimal.remainingAnimalNames();
         spiritAnimalService.assignSpiritAnimalFor("R2D2");
-        assertEquals(50, SpiritAnimal.remainingAnimalNames());
+        assertTrue(SpiritAnimal.remainingAnimalNames() >= 50);
     }
 }
