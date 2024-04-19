@@ -60,6 +60,12 @@ public class SpiritAnimalService {
         return openAIService.writeAPoem(animalName, poet);
     }
 
+    public String addToPoem(String animalName, String poem) {
+        String poeticAddition = POETICADDITION.addition();
+        LOGGER.debug("Add {} the the following poem: {}", poeticAddition, poem);
+        return openAIService.addThisToThePoem(poeticAddition, poem);
+    }
+
 
     private Set<String> getMoreAnimalNames() {
 

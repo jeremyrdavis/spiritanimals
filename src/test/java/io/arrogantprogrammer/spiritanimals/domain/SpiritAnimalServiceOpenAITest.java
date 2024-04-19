@@ -33,4 +33,12 @@ public class SpiritAnimalServiceOpenAITest {
         assertNotNull(writeAPoemResult);
         assertEquals(OpenAITestUtils.MOOSE_POEM, writeAPoemResult);
     }
+
+    @Test
+    public void testAddThisToThePoem() {
+        LOGGER.info("Testing addThisToThePoem");
+        String addThisToThePoemResult = spiritAnimalService.addToPoem("moose", OpenAITestUtils.MOOSE_POEM);
+        assertNotNull(addThisToThePoemResult);
+        assertEquals(OpenAITestUtils.MOOSE_POEM_WITH_EDDIE_MURPHY, addThisToThePoemResult);
+    }
 }
