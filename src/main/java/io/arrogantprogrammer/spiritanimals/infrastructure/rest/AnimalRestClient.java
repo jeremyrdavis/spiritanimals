@@ -10,7 +10,7 @@ import org.jboss.resteasy.reactive.RestQuery;
 import java.util.List;
 
 @Path("/v1/animals")
-@ClientHeaderParam(name = "x-api-key", value = "${api-ninjas-key}")
+@ClientHeaderParam(name = "x-api-key", value = "${api-key}")
 @RegisterRestClient
 public interface AnimalRestClient {
 

@@ -15,6 +15,7 @@
         <quarkus.platform.version>3.9.3</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.2.5</surefire-plugin.version>
+        <quarkiverse.langchain4j.version>0.11.1</quarkiverse.langchain4j.version>
     </properties>
 
     <dependencyManagement>
@@ -55,17 +56,19 @@
             <artifactId>quarkus-jdbc-postgresql</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.quarkiverse.langchain4j</groupId>
+            <artifactId>quarkus-langchain4j-openai</artifactId>
+            <version>${quarkiverse.langchain4j.version}</version>
+        </dependency>
+        <!-- Test -->
+        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-jacoco</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.langchain4j</groupId>
-            <artifactId>quarkus-langchain4j-core</artifactId>
-            <version>0.11.1</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit5</artifactId>
+            <artifactId>quarkus-junit5-mockito</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

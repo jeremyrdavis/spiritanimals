@@ -1,15 +1,15 @@
-package io.arrogantprogrammer.spiritanimals.openapi;
+package io.arrogantprogrammer.spiritanimals.openai;
 
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
 @RegisterAiService
-public interface OpenApiService {
+public interface OpenAIService {
 
     @UserMessage("""
                 What is {article} {animalName}?
             """)
-    String whoIsCharacter(final String article, final String character);
+    String whatIs(final String article, final String character);
 
     @UserMessage("""
                 Write a poem about {animalName} in the style of {poet}.

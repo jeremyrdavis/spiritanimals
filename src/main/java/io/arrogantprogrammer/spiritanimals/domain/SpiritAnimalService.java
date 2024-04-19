@@ -1,6 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
 import io.arrogantprogrammer.spiritanimals.infrastructure.rest.AnimalRestClient;
+import io.arrogantprogrammer.spiritanimals.openai.OpenAIService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -26,6 +27,9 @@ public class SpiritAnimalService {
     AnimalRestClient animalRestClient;
 
     @Inject
+    OpenAIService openAIService;
+
+    @Inject
     SpiritAnimalAssignmentRepository spiritAnimalAssignmentRepository;
 
     public SpritAnimalAssignmentRecord assignSpiritAnimalFor(final String name) {
@@ -48,12 +52,9 @@ public class SpiritAnimalService {
     private Set<String> getMoreAnimalNames() {
 
         Set<String> animalNames = new HashSet<>();
-
-        while(SpiritAnimal.remainingAnimalNames() < 50) {
-            animalRestClient.getAnimals(randomLetter()).forEach(animalJson -> {
-                animalNames.add(animalJson.name());
-            });
-        }
+        animalRestClient.getAnimals(randomLetter()).forEach(animalJson -> {
+            animalNames.add(animalJson.name());
+        });
         LOGGER.debug("retrieved {} new animal names", animalNames.size());
         return animalNames;
     }
@@ -62,15 +63,18 @@ public class SpiritAnimalService {
         return letters.get((int) (Math.random() * letters.size()));
     }
 
-    public AnimalJson getAnimal() {
 
-        List<AnimalJson> animalJsonList = animalRestClient.getAnimals(randomLetter());
-        LOGGER.debug("retrieved {} animals", animalJsonList.size());
+    public String whatIs(String animalName) {
+        LOGGER.debug("What is {}", animalName);
+        return openAIService.whatIs(aOrAn(animalName), animalName);
+    }
 
-        if(animalJsonList.size() > 0) {
-            return animalJsonList.get(0);
+    private String aOrAn(String animalName) {
+        char firstChar = Character.toLowerCase(animalName.charAt(0));
+        if (firstChar == 'a' || firstChar == 'e' || firstChar == 'i' || firstChar == 'o' || firstChar == 'u') {
+            return "an";
         } else {
-            return null;
+            return "a";
         }
     }
 }
