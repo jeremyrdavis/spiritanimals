@@ -3,7 +3,6 @@ package io.arrogantprogrammer.spiritanimals.domain;
 import io.arrogantprogrammer.spiritanimals.openai.OpenAITestUtils;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
-import org.apache.commons.math3.stat.inference.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ public class SpiritAnimalServiceOpenAITest {
     static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalServiceOpenAITest.class);
 
     @Inject
-    SpiritAnimalService spiritAnimalService;
+    SpiritAnimalServiceImpl spiritAnimalService;
 
     @Test
     public void testWhatIs() {

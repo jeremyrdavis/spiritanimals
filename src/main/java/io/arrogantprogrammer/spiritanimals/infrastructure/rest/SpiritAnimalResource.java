@@ -1,7 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
 
 
-import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalService;
+import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalServiceImpl;
 import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.SpritAnimalAssignmentRecord;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -16,7 +16,7 @@ public class SpiritAnimalResource {
     static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalResource.class);
 
     @Inject
-    SpiritAnimalService spiritAnimalService;
+    SpiritAnimalServiceImpl spiritAnimalService;
 
     @POST
     @Path("/assign")

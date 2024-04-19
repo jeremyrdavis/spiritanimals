@@ -1,5 +1,6 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
+import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.infrastructure.rest.AnimalRestClient;
 import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.SpritAnimalAssignmentRecord;
 import io.arrogantprogrammer.spiritanimals.openai.OpenAIService;
@@ -17,9 +18,9 @@ import java.util.Set;
 import static io.arrogantprogrammer.spiritanimals.domain.SpiritAnimal.assignSpiritAnimal;
 
 @ApplicationScoped
-public class SpiritAnimalService {
+public class SpiritAnimalServiceImpl implements SpiritAnimalService {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalService.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalServiceImpl.class);
 
     static final List<String> letters = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
 
@@ -32,6 +33,7 @@ public class SpiritAnimalService {
     @Inject
     SpiritAnimalAssignmentRepository spiritAnimalAssignmentRepository;
 
+    @Override
     public SpritAnimalAssignmentRecord assignSpiritAnimalFor(final String name) {
         LOGGER.info("Assigning spirit animal for {}", name);
 
@@ -49,23 +51,25 @@ public class SpiritAnimalService {
         return new SpritAnimalAssignmentRecord(spiritAnimalAssignmentResult.spiritAnimalAssignment().id, spiritAnimalAssignmentResult.spiritAnimalAssignment().name, spiritAnimalAssignmentResult.spiritAnimalAssignment().animalName);
     }
 
+    @Override
     public String whatIs(String animalName) {
         LOGGER.debug("What is {}", animalName);
         return openAIService.whatIs(aOrAn(animalName), animalName);
     }
 
+    @Override
     public String writeAPoem(String animalName) {
         String poet = POET.randomPoet();
         LOGGER.debug("Write a poem about {} in the style of {}", animalName, poet);
         return openAIService.writeAPoem(animalName, poet);
     }
 
+    @Override
     public String addToPoem(String animalName, String poem) {
         String poeticAddition = POETICADDITION.addition();
         LOGGER.debug("Add {} the the following poem: {}", poeticAddition, poem);
         return openAIService.addThisToThePoem(poeticAddition, poem);
     }
-
 
     private Set<String> getMoreAnimalNames() {
         LOGGER.debug("Getting more animal names");
@@ -81,8 +85,6 @@ public class SpiritAnimalService {
     String randomLetter() {
         return letters.get((int) (Math.random() * letters.size()));
     }
-
-
 
     String aOrAn(String animalName) {
         char firstChar = Character.toLowerCase(animalName.charAt(0));

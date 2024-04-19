@@ -15,7 +15,7 @@ public class SpiritAnimalServiceMinimumNamesTest {
     static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalServiceMinimumNamesTest.class);
 
     @Inject
-    SpiritAnimalService spiritAnimalService;
+    SpiritAnimalServiceImpl spiritAnimalService;
 
     @Test @Transactional
     public void testMinimumNumberOfAnimals() {
