@@ -78,13 +78,13 @@ public class SpiritAnimalService {
         return animalNames;
     }
 
-    private String randomLetter() {
+    String randomLetter() {
         return letters.get((int) (Math.random() * letters.size()));
     }
 
 
 
-    private String aOrAn(String animalName) {
+    String aOrAn(String animalName) {
         char firstChar = Character.toLowerCase(animalName.charAt(0));
         if (firstChar == 'a' || firstChar == 'e' || firstChar == 'i' || firstChar == 'o' || firstChar == 'u') {
             return "an";
