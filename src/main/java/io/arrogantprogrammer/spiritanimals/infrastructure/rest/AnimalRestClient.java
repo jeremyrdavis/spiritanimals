@@ -1,6 +1,6 @@
 package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
 
-import io.arrogantprogrammer.spiritanimals.domain.AnimalJson;
+import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.AnimalJson;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import org.eclipse.microprofile.rest.client.annotation.ClientHeaderParam;

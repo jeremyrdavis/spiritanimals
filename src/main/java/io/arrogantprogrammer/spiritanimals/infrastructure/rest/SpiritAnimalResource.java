@@ -1,17 +1,14 @@
 package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
 
 
-import dev.langchain4j.agent.tool.P;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.domain.SpritAnimalAssignmentRecord;
+import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.SpritAnimalAssignmentRecord;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URI;
 
 @Path("/spiritanimals")
 public class SpiritAnimalResource {

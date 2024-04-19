@@ -1,4 +1,4 @@
-package io.arrogantprogrammer.spiritanimals.domain;
+package io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain;
 
 /**
  * "characteristics": {

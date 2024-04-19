@@ -12,6 +12,10 @@ public class SpiritAnimal {
         animalNames.add(animalName);
     }
 
+    /**
+     * Add more names to the list of available animal names, filtering out animals that are already assigned
+     * @param animalNames
+     */
     static void addAnimals(Collection<String> animalNames) {
         animalNames.forEach(name -> {
             if(!assignedAnimalNames.contains(name))

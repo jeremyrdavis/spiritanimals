@@ -1,6 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
 import io.arrogantprogrammer.spiritanimals.infrastructure.rest.AnimalRestClient;
+import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.SpritAnimalAssignmentRecord;
 import io.arrogantprogrammer.spiritanimals.openai.OpenAIService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -12,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static io.arrogantprogrammer.spiritanimals.domain.SpiritAnimal.assignSpiritAnimal;
 
