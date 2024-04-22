@@ -39,6 +39,17 @@ public class SpiritAnimalResource {
         return Response.status(201).entity(whatIsResult).build();
     }
 
+    @POST
+    @Path("/poem")
+    @Transactional
+    public Response poem(final Long id) {
+        LOGGER.debug("Poem for spiritAnimalWorkflow:{}", id);
+        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.writeAPoem(id);
+        return Response.status(201).entity(spiritAnimalWorkflow).build();
+    }
+
+
+
 //    @GET
 //    @Path("/")
 //    public Response allSpiritAnimals() {

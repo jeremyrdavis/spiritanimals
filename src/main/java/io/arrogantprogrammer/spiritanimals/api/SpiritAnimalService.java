@@ -7,7 +7,7 @@ public interface SpiritAnimalService {
 
     SpiritAnimalWorkflow whatIs(SpiritAnimalWorkflow spiritAnimalWorkflow);
 
-    String writeAPoem(String animalName);
+    SpiritAnimalWorkflow writeAPoem(final Long id);
 
     String addToPoem(String animalName, String poem);
 }

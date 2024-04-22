@@ -64,6 +64,24 @@ public class SpiritAnimalResourceTest {
                 .body("whatIs", is(whatIsText));
     }
 
+    @Test
+    public void testPoem(){
+        LOGGER.info("Testing whatIs");
+
+        given()
+                .with().body("1")
+                .with().contentType("application/json")
+                .when().post("/spiritanimals/poem")
+                .then()
+                .statusCode(201)
+                .body("id", notNullValue())
+                .body("name", is("Jar Jar Binks"))
+                .body("spiritAnimal", notNullValue())
+                .body("whatIs", is(whatIsText))
+                .body("poem", is(poemText));
+    }
+
+
     String whatIsRequestJson = """
             {
                 "id": 1,
@@ -86,8 +104,7 @@ public class SpiritAnimalResourceTest {
             
             Despite their importance to reef ecosystems, reef sharks face threats from overfishing, habitat destruction, and pollution, which have led to population declines in some areas. Conservation efforts aimed at protecting reef habitats and regulating fishing practices are essential for ensuring the survival of reef shark species and the health of coral reef ecosystems.            
             """;
-
-    String poem = """
+    String poemText = """
             In the azure depths where corals sway,
             Amidst the whispers of the brine's ballet,
             There glides a creature, sleek and bold,

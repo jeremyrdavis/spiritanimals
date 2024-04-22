@@ -73,10 +73,19 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
     }
 
     @Override
-    public String writeAPoem(String animalName) {
+    public SpiritAnimalWorkflow writeAPoem(Long id) {
         String poet = POET.randomPoet();
-        LOGGER.debug("Write a poem about {} in the style of {}", animalName, poet);
-        return openAIService.writeAPoem(animalName, poet);
+        Workflow workflow = spiritAnimalAssignmentRepository.findWorkflowById(id);
+        LOGGER.debug("Write a poem about {} in the style of {}", workflow.spiritAnimalAssignment.animalName, poet);
+        String poem = openAIService.writeAPoem(workflow.spiritAnimalAssignment.animalName, poet);
+        workflow.setPoem(poem);
+        spiritAnimalAssignmentRepository.persist(workflow);
+        return new SpiritAnimalWorkflow.Builder()
+                .withId(workflow.id)
+                .withName(workflow.spiritAnimalAssignment.name)
+                .withSpiritAnimal(workflow.spiritAnimalAssignment.animalName)
+                .withPoem(poem)
+                .build();
     }
 
     @Override

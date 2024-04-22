@@ -75,13 +75,13 @@ public record SpiritAnimalWorkflow(
             return this;
         }
 
-        public Builder withPoem(Optional<String> poem) {
-            this.poem = poem;
+        public Builder withPoem(String poem) {
+            this.poem = Optional.of(poem);
             return this;
         }
 
-        public Builder withUpdatedPoem(Optional<String> updatedPoem) {
-            this.updatedPoem = updatedPoem;
+        public Builder withUpdatedPoem(String updatedPoem) {
+            this.updatedPoem = Optional.of(updatedPoem);
             return this;
         }
 
