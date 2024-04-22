@@ -7,7 +7,6 @@ import io.arrogantprogrammer.spiritanimals.openai.OpenAIService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.hibernate.jdbc.Work;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +51,7 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
         spiritAnimalAssignmentRepository.persist(spiritAnimalAssignment);
         Workflow spiritAnimalWorkflow = new Workflow();
         spiritAnimalWorkflow.setSpiritAnimalAssignment(spiritAnimalAssignment);
-        spiritAnimalAssignmentRepository.persist(spiritAnimalWorkflow);
+        spiritAnimalAssignmentRepository.persistWorkflow(spiritAnimalWorkflow);
 
         LOGGER.debug("Assigned and persisted spirit animal for {}: {}", name, spiritAnimalAssignment.getAnimalName());
         return new SpiritAnimalWorkflow(spiritAnimalAssignmentResult.spiritAnimalAssignment().id, spiritAnimalAssignmentResult.spiritAnimalAssignment().name, spiritAnimalAssignmentResult.spiritAnimalAssignment().animalName);
@@ -64,7 +63,7 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
 
         String whatIsText = whatIs(spiritAnimalWorkflow.getSpiritAnimalAssignment().animalName); //openAIService.whatIs(aOrAn(spiritAnimalWorkflow.spiritAnimal()), spiritAnimalWorkflow.spiritAnimal());
         spiritAnimalWorkflow.setWhatIs(whatIsText);
-        spiritAnimalAssignmentRepository.persist(spiritAnimalWorkflow);
+        spiritAnimalAssignmentRepository.persistWorkflow(spiritAnimalWorkflow);
         return new SpiritAnimalWorkflow.Builder()
                 .withId(spiritAnimalWorkflow.id)
                 .withName(spiritAnimalWorkflow.spiritAnimalAssignment.name)
@@ -85,7 +84,7 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
         LOGGER.debug("Write a poem about {} in the style of {}", workflow.spiritAnimalAssignment.animalName, poet);
         String poem = openAIService.writeAPoem(workflow.spiritAnimalAssignment.animalName, poet);
         workflow.setPoem(poem);
-        spiritAnimalAssignmentRepository.persist(workflow);
+        spiritAnimalAssignmentRepository.persistWorkflow(workflow);
         return new SpiritAnimalWorkflow.Builder()
                 .withId(workflow.id)
                 .withName(workflow.spiritAnimalAssignment.name)
@@ -99,10 +98,59 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
     }
 
     @Override
-    public String addToPoem(String animalName, String poem) {
+    public SpiritAnimalWorkflow addToPoem(final Long id) {
         String poeticAddition = POETICADDITION.addition();
-        LOGGER.debug("Add {} the the following poem: {}", poeticAddition, poem);
+        LOGGER.debug("Add {} the poem for workflow: {}", poeticAddition, id);
+        Workflow workflow = spiritAnimalAssignmentRepository.findWorkflowById(id);
+
+        String updatedPoem = callLlmAddToPoem(poeticAddition, workflow.getPoem().orElse(POETICADDITION.addition()));
+        workflow.setPoem(updatedPoem);
+        spiritAnimalAssignmentRepository.persistWorkflow(workflow);
+
+        return new SpiritAnimalWorkflow.Builder()
+                .withId(workflow.id)
+                .withName(workflow.spiritAnimalAssignment.name)
+                .withSpiritAnimal(workflow.spiritAnimalAssignment.animalName)
+                .withPoem(workflow.poem)
+                .withUpdatedPoem(workflow.updatedPoem)
+                .build();
+    }
+
+    String callLlmAddToPoem(String poeticAddition, String poem) {
         return openAIService.addThisToThePoem(poeticAddition, poem);
+    }
+
+    @Override
+    public SpiritAnimalWorkflow like(final Long id) {
+        LOGGER.debug("Liking spirit animal for id: {}", id);
+        Workflow workflow = spiritAnimalAssignmentRepository.findWorkflowById(id);
+        workflow.setLiked(true);
+        spiritAnimalAssignmentRepository.persistWorkflow(workflow);
+        return new SpiritAnimalWorkflow.Builder()
+                .withId(workflow.id)
+                .withName(workflow.spiritAnimalAssignment.name)
+                .withSpiritAnimal(workflow.spiritAnimalAssignment.animalName)
+                .withWhatIs(workflow.getWhatIs().orElse(""))
+                .withPoem(workflow.getPoem().orElse(""))
+                .withUpdatedPoem(workflow.getUpdatedPoem().orElse(""))
+                .isLiked()
+                .build();
+    }
+
+    @Override
+    public SpiritAnimalWorkflow feedback(final Long id, final String feedback) {
+        LOGGER.debug("Feedback for spirit animal for id: {}", id);
+        Workflow workflow = spiritAnimalAssignmentRepository.findWorkflowById(id);
+        workflow.setFeedback(feedback);
+        spiritAnimalAssignmentRepository.persistWorkflow(workflow);
+        return new SpiritAnimalWorkflow.Builder()
+                .withId(workflow.id)
+                .withName(workflow.spiritAnimalAssignment.name)
+                .withSpiritAnimal(workflow.spiritAnimalAssignment.animalName)
+                .withPoem(workflow.poem)
+                .withUpdatedPoem(workflow.updatedPoem)
+                .withFeedback(workflow.feedback)
+                .build();
     }
 
     private Set<String> getMoreAnimalNames() {

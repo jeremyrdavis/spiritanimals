@@ -1,6 +1,5 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
-import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -10,7 +9,7 @@ public class SpiritAnimalAssignmentRepository implements PanacheRepository<Spiri
         return Workflow.findById(id);
     }
 
-    public void persist(Workflow workflow) {
+    public void persistWorkflow(Workflow workflow) {
         workflow.persist();
     }
 }

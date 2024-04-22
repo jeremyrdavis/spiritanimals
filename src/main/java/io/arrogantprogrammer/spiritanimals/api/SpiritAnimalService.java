@@ -1,7 +1,5 @@
 package io.arrogantprogrammer.spiritanimals.api;
 
-import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.SpritAnimalAssignmentRecord;
-
 public interface SpiritAnimalService {
     SpiritAnimalWorkflow assignSpiritAnimalFor(String name);
 
@@ -9,5 +7,9 @@ public interface SpiritAnimalService {
 
     SpiritAnimalWorkflow writeAPoem(final Long id);
 
-    String addToPoem(String animalName, String poem);
+    SpiritAnimalWorkflow addToPoem(Long id);
+
+    SpiritAnimalWorkflow like(Long id);
+
+    SpiritAnimalWorkflow feedback(Long id, final String feedback);
 }

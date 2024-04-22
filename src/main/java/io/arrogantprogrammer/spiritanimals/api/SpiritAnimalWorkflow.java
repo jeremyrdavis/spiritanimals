@@ -8,18 +8,18 @@ import java.util.Optional;
  * @param id
  * @param name
  * @param spiritAnimal
- * @param accepted
+ * @param liked
  * @param whatIs
  * @param poem
  * @param updatedPoem
  * @param feedback
  */
 public record SpiritAnimalWorkflow(
-        Long id, String name, String spiritAnimal, boolean accepted,
+        Long id, String name, String spiritAnimal, boolean liked,
        Optional<String> whatIs, Optional<String> poem, Optional<String> updatedPoem, Optional<String> feedback){
 
     /**
-     * Convenience constructor for creating a new SpiritAnimalWorkflow
+     * Convenience constructor for creating a new SpiritAnimalWorkflow with the basic information.
      * @param name
      * @param id
      * @param spiritAnimal
@@ -28,15 +28,14 @@ public record SpiritAnimalWorkflow(
         this(id, name, spiritAnimal, false, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
     }
 
-    public SpiritAnimalWorkflow(Long id, String name, String spiritAnimal, String whatIsText) {
-        this(id, name, spiritAnimal, false, Optional.of(whatIsText), Optional.empty(), Optional.empty(), Optional.empty());
-    }
-
+    /**
+     * Builder for creating a new SpiritAnimalWorkflow.
+     */
     public static class Builder {
         Long id;
         String name;
         String spiritAnimal;
-        boolean accepted;
+        boolean liked;
         Optional<String> whatIs;
         Optional<String> poem;
         Optional<String> updatedPoem;
@@ -66,7 +65,7 @@ public record SpiritAnimalWorkflow(
         }
 
         public Builder withAccepted(boolean accepted) {
-            this.accepted = accepted;
+            this.liked = accepted;
             return this;
         }
 
@@ -85,9 +84,20 @@ public record SpiritAnimalWorkflow(
             return this;
         }
 
-        public SpiritAnimalWorkflow build() {
-            return new SpiritAnimalWorkflow(id, name, spiritAnimal, accepted, whatIs, poem, updatedPoem, feedback);
+        public Builder isLiked(){
+            this.liked = true;
+            return this;
         }
+
+        public Builder withFeedback(String feedback) {
+            this.feedback = Optional.of(feedback);
+            return this;
+        }
+
+        public SpiritAnimalWorkflow build() {
+            return new SpiritAnimalWorkflow(id, name, spiritAnimal, liked, whatIs, poem, updatedPoem, feedback);
+        }
+
     }
 
 }

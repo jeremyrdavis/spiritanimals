@@ -3,6 +3,7 @@ package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
 
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalServiceImpl;
+import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.FeedbackJson;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
@@ -50,7 +51,32 @@ public class SpiritAnimalResource {
         return Response.status(201).entity(spiritAnimalWorkflow).build();
     }
 
+    @POST
+    @Path("/addToPoem")
+    @Transactional
+    public Response addToPoem(final Long id) {
+        LOGGER.debug("Adding to poem for spiritAnimalWorkflow:{}", id);
+        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.addToPoem(id);
+        return Response.status(201).entity(spiritAnimalWorkflow).build();
+    }
 
+    @POST
+    @Path("/like")
+    @Transactional
+    public Response like(final Long id) {
+        LOGGER.debug("Liking spirit animal for id: {}", id);
+        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.like(id);
+        return Response.status(200).entity(spiritAnimalWorkflow).build();
+    }
+
+    @POST
+    @Path("/feedback")
+    @Transactional
+    public Response feedback(FeedbackJson feedbackJson) {
+        LOGGER.debug("Feedback spirit animal for id: {}", feedbackJson.id());
+        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.feedback(feedbackJson.id(), feedbackJson.feedback());
+        return Response.status(200).entity(spiritAnimalWorkflow).build();
+    }
 
 //    @GET
 //    @Path("/")

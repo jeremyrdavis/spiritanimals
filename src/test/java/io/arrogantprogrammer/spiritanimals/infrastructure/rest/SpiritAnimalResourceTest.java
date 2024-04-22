@@ -4,6 +4,7 @@ import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalAssignment;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalTestUtils;
+import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.FeedbackJson;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.core.MediaType;
@@ -26,7 +27,7 @@ public class SpiritAnimalResourceTest {
     @BeforeEach
     public void setUp() {
         LOGGER.info("Setting up test");
-        SpiritAnimalTestUtils.addAnimals();
+
         Mockito.when(spiritAnimalService.assignSpiritAnimalFor("Jar Jar Binks"))
                 .thenReturn(new SpiritAnimalWorkflow(237L, "Jar Jar Binks", "Reef Shark"));
 
@@ -36,8 +37,14 @@ public class SpiritAnimalResourceTest {
         Mockito.when(spiritAnimalService.writeAPoem(237L))
                 .thenReturn(new SpiritAnimalWorkflow.Builder().withId(237L).withName("Jar Jar Binks").withSpiritAnimal("Reef Shark").withWhatIs(whatIsText).withPoem(poemText).build());
 
-//        Mockito.when(spiritAnimalService.addToPoem(237L))
-//                .thenReturn(new SpiritAnimalWorkflow.Builder().withId(237L).withName("Jar Jar Binks").withSpiritAnimal("Reef Shark").withWhatIs(whatIsText).withPoem(poemText).build());
+        Mockito.when(spiritAnimalService.addToPoem(237L))
+                .thenReturn(new SpiritAnimalWorkflow.Builder().withId(237L).withName("Jar Jar Binks").withSpiritAnimal("Reef Shark").withWhatIs(whatIsText).withPoem(poemText).withUpdatedPoem(updatedPoemText).build());
+
+        Mockito.when(spiritAnimalService.like(237L))
+                .thenReturn(new SpiritAnimalWorkflow.Builder().withId(237L).withName("Jar Jar Binks").withSpiritAnimal("Reef Shark").withWhatIs(whatIsText).withPoem(poemText).withUpdatedPoem(updatedPoemText).isLiked().build());
+
+        Mockito.when(spiritAnimalService.feedback(feedbackJson.id(), feedbackJson.feedback()))
+                .thenReturn(new SpiritAnimalWorkflow.Builder().withId(feedbackJson.id()).withName("Jar Jar Binks").withSpiritAnimal("Reef Shark").withWhatIs(whatIsText).withPoem(poemText).withUpdatedPoem(updatedPoemText).isLiked().withFeedback(feedbackJson.feedback()).build());
     }
 
     @Test
@@ -87,6 +94,56 @@ public class SpiritAnimalResourceTest {
                 .body("whatIs", is(whatIsText))
                 .body("poem", is(poemText));
     }
+
+    @Test
+    public void testAddToPoem(){
+        LOGGER.info("Testing addToPoem");
+
+        given()
+                .with().body(237)
+                .with().contentType(MediaType.APPLICATION_JSON)
+                .when().post("/spiritanimals/addToPoem")
+                .then()
+                .statusCode(201)
+                .body("id", notNullValue())
+                .body("name", is("Jar Jar Binks"))
+                .body("spiritAnimal", notNullValue())
+                .body("whatIs", is(whatIsText))
+                .body("poem", is(poemText))
+                .body("updatedPoem", is(updatedPoemText));
+    }
+
+    @Test
+    public void testLikeAssignment() {
+        LOGGER.info("Testing likeAssignment");
+
+        given()
+                .with().body(237)
+                .with().contentType(MediaType.APPLICATION_JSON)
+                .when().post("/spiritanimals/like")
+                .then()
+                .statusCode(200)
+                .body("id", notNullValue())
+                .body("name", is("Jar Jar Binks"))
+                .body("spiritAnimal", notNullValue())
+                .body("whatIs", is(whatIsText))
+                .body("poem", is(poemText))
+                .body("updatedPoem", is(updatedPoemText))
+                .body("liked", is(true));
+    }
+
+    @Test
+    public void testFeedback() {
+        given()
+                .with().body(feedbackJson)
+                .with().contentType(MediaType.APPLICATION_JSON)
+                .when().post("/spiritanimals/feedback")
+                .then()
+                .statusCode(200)
+                .body("id", notNullValue())
+                .body("feedback", is(feedbackJson.feedback()));
+    }
+
     String whatIsRequestJson = """
             {
                 "id": 1,
@@ -140,4 +197,39 @@ public class SpiritAnimalResourceTest {
             You are the spirit of the ocean's heart,
             A testament to its eternal art.
             """;
+
+    String updatedPoemText = """
+            Ode to thee, reef shark divine,
+                    With fins like sails, in currents entwine,
+                    Your silhouette, a shadow's dance,
+                    In Neptune's realm, you enchant and entrance.
+
+                    Beneath the moon's soft, shimmering light,
+                    You roam the ocean's velvet night,
+                    A guardian of secrets, silent and true,
+                    In your presence, mysteries accrue.
+
+                    Oh, how your gaze, with depth profound,
+                    Reflects the wisdom of the ocean's sound,
+                    Eyes that hold the stories of the deep,
+                    In their depths, ancient memories sleep.
+
+                    You are the poet of the deep sea's lore,
+                    With each graceful move, you implore,
+                    To cherish the treasures of the marine,
+                    And honor the mysteries unseen.
+
+                    Reef shark, your essence, a symphony rare,
+                    In every ripple, in every flare,
+                    You are the spirit of the ocean's heart,
+                    A testament to its eternal art.
+
+                    Amidst the waves, where life is stark,
+                    You savor the taste of beef jerky's bark,
+                    A moment of delight amidst your roam,
+                    A savory treat in your oceanic home.
+               """;
+
+    static final FeedbackJson feedbackJson = new FeedbackJson(237L, "Lorem ipsum dolor sit amet. Consectetur adipiscing elit. Nullam auctor, nunc nec ultricies.");
+
 }

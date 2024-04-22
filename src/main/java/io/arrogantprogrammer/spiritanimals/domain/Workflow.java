@@ -3,6 +3,8 @@ package io.arrogantprogrammer.spiritanimals.domain;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
+import java.util.Optional;
+
 @Entity
 public class Workflow extends PanacheEntity {
 
@@ -10,15 +12,34 @@ public class Workflow extends PanacheEntity {
     @MapsId
     SpiritAnimalAssignment spiritAnimalAssignment;
 
+    @Lob
     String whatIs;
 
+    @Lob
     String poem;
 
+    @Lob
     String updatedPoem;
 
     boolean isLiked;
 
+    @Lob
+    String feedback;
+
     public Workflow() {
+    }
+
+    @Override
+    public String toString() {
+        return "Workflow{" +
+                "spiritAnimalAssignment=" + spiritAnimalAssignment +
+                ", whatIs='" + whatIs + '\'' +
+                ", poem='" + poem + '\'' +
+                ", updatedPoem='" + updatedPoem + '\'' +
+                ", isLiked=" + isLiked +
+                ", feedback='" + feedback + '\'' +
+                ", id=" + id +
+                '}';
     }
 
     public SpiritAnimalAssignment getSpiritAnimalAssignment() {
@@ -29,24 +50,24 @@ public class Workflow extends PanacheEntity {
         this.spiritAnimalAssignment = spiritAnimalAssignment;
     }
 
-    public String getWhatIs() {
-        return whatIs;
+    public Optional<String> getWhatIs() {
+        return Optional.ofNullable(whatIs);
     }
 
     public void setWhatIs(String whatIs) {
         this.whatIs = whatIs;
     }
 
-    public String getPoem() {
-        return poem;
+    public Optional<String> getPoem() {
+        return Optional.ofNullable(poem);
     }
 
     public void setPoem(String poem) {
         this.poem = poem;
     }
 
-    public String getUpdatedPoem() {
-        return updatedPoem;
+    public Optional<String> getUpdatedPoem() {
+        return Optional.ofNullable(updatedPoem);
     }
 
     public void setUpdatedPoem(String updatedPoem) {
@@ -59,5 +80,13 @@ public class Workflow extends PanacheEntity {
 
     public void setLiked(boolean liked) {
         isLiked = liked;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 }
