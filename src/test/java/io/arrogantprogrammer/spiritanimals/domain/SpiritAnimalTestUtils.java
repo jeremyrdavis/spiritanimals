@@ -1,12 +1,10 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction.Transactional;
-
 import java.util.Set;
 
 public class SpiritAnimalTestUtils {
 
+    public static final SpiritAnimalAssignment MOOSE_SPIRIT_ANIMAL_ASSIGNMENT = new SpiritAnimalAssignment("Jabba the Hut", "Moose");
     public static void addAnimals() {
         SpiritAnimal.addAnimals(Set.of(
                 "Moose", "Bear", "Tiger", "Lion", "Elephant", "Giraffe", "Penguin", "Kangaroo", "Panda", "Polar Bear", "Koala", "Zebra", "Hippo", "Rhino",

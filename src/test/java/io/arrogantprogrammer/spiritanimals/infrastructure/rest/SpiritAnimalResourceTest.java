@@ -6,6 +6,7 @@ import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalAssignment;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalTestUtils;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.ws.rs.core.MediaType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -27,10 +28,16 @@ public class SpiritAnimalResourceTest {
         LOGGER.info("Setting up test");
         SpiritAnimalTestUtils.addAnimals();
         Mockito.when(spiritAnimalService.assignSpiritAnimalFor("Jar Jar Binks"))
-                .thenReturn(new SpiritAnimalWorkflow(1L, "Jar Jar Binks", "Reef Shark"));
+                .thenReturn(new SpiritAnimalWorkflow(237L, "Jar Jar Binks", "Reef Shark"));
 
-        Mockito.when(spiritAnimalService.whatIs(new SpiritAnimalWorkflow(1L, "Jar Jar Binks", "Reef Shark")))
-                .thenReturn(new SpiritAnimalWorkflow.Builder().withId(1L).withName("Jar Jar Binks").withSpiritAnimal("Reef Shark").withWhatIs(whatIsText).build());
+        Mockito.when(spiritAnimalService.whatIs(237L))
+                .thenReturn(new SpiritAnimalWorkflow.Builder().withId(237L).withName("Jar Jar Binks").withSpiritAnimal("Reef Shark").withWhatIs(whatIsText).build());
+
+        Mockito.when(spiritAnimalService.writeAPoem(237L))
+                .thenReturn(new SpiritAnimalWorkflow.Builder().withId(237L).withName("Jar Jar Binks").withSpiritAnimal("Reef Shark").withWhatIs(whatIsText).withPoem(poemText).build());
+
+//        Mockito.when(spiritAnimalService.addToPoem(237L))
+//                .thenReturn(new SpiritAnimalWorkflow.Builder().withId(237L).withName("Jar Jar Binks").withSpiritAnimal("Reef Shark").withWhatIs(whatIsText).withPoem(poemText).build());
     }
 
     @Test
@@ -53,7 +60,7 @@ public class SpiritAnimalResourceTest {
         LOGGER.info("Testing whatIs");
 
         given()
-                .with().body(whatIsRequestJson)
+                .with().body(237)
                 .with().contentType("application/json")
                 .when().post("/spiritanimals/whatIs")
                 .then()
@@ -69,8 +76,8 @@ public class SpiritAnimalResourceTest {
         LOGGER.info("Testing whatIs");
 
         given()
-                .with().body("1")
-                .with().contentType("application/json")
+                .with().body(237)
+                .with().contentType(MediaType.APPLICATION_JSON)
                 .when().post("/spiritanimals/poem")
                 .then()
                 .statusCode(201)
@@ -80,8 +87,6 @@ public class SpiritAnimalResourceTest {
                 .body("whatIs", is(whatIsText))
                 .body("poem", is(poemText));
     }
-
-
     String whatIsRequestJson = """
             {
                 "id": 1,
@@ -94,7 +99,6 @@ public class SpiritAnimalResourceTest {
                 "feedback": null
             }
             """;
-
     String whatIsText = """
             A reef shark is a type of shark that typically inhabits coral reef ecosystems in tropical and subtropical waters around the world. They belong to the family Carcharhinidae and are known for their streamlined bodies, sharp teeth, and often striking appearance. Reef sharks play a crucial role in maintaining the health and balance of coral reef ecosystems by regulating prey populations and contributing to overall biodiversity.
             
@@ -104,6 +108,7 @@ public class SpiritAnimalResourceTest {
             
             Despite their importance to reef ecosystems, reef sharks face threats from overfishing, habitat destruction, and pollution, which have led to population declines in some areas. Conservation efforts aimed at protecting reef habitats and regulating fishing practices are essential for ensuring the survival of reef shark species and the health of coral reef ecosystems.            
             """;
+    String poemRequestJson = "{\"id\": 237}";
     String poemText = """
             In the azure depths where corals sway,
             Amidst the whispers of the brine's ballet,

@@ -1,18 +1,20 @@
 package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
 
 
-import dev.langchain4j.agent.tool.P;
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalServiceImpl;
-import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.SpritAnimalAssignmentRecord;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Path("/spiritanimals")
+@Produces(MediaType.APPLICATION_JSON)
 public class SpiritAnimalResource {
 
     static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalResource.class);
@@ -33,9 +35,9 @@ public class SpiritAnimalResource {
     @POST
     @Path("/whatIs")
     @Transactional
-    public Response whatIs(SpiritAnimalWorkflow spiritAnimalWorkflow) {
-        LOGGER.debug("What is {}", spiritAnimalWorkflow.spiritAnimal());
-        SpiritAnimalWorkflow whatIsResult = spiritAnimalService.whatIs(spiritAnimalWorkflow);
+    public Response whatIs(final Long id) {
+        LOGGER.debug("whatIs for id: {}", id);
+        SpiritAnimalWorkflow whatIsResult = spiritAnimalService.whatIs(id);
         return Response.status(201).entity(whatIsResult).build();
     }
 
