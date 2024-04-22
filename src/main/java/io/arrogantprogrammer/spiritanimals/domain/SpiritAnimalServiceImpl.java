@@ -56,7 +56,18 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
     }
 
     @Override
-    public String whatIs(String animalName) {
+    public SpiritAnimalWorkflow whatIs(SpiritAnimalWorkflow spiritAnimalWorkflow) {
+        LOGGER.debug("What is {}", spiritAnimalWorkflow.spiritAnimal());
+        String whatIsText = whatIs(spiritAnimalWorkflow.spiritAnimal()); //openAIService.whatIs(aOrAn(spiritAnimalWorkflow.spiritAnimal()), spiritAnimalWorkflow.spiritAnimal());
+        return new SpiritAnimalWorkflow.Builder()
+                .withId(spiritAnimalWorkflow.id())
+                .withName(spiritAnimalWorkflow.name())
+                .withSpiritAnimal(spiritAnimalWorkflow.spiritAnimal())
+                .withWhatIs(whatIsText)
+                .build();
+    }
+
+    String whatIs(String animalName) {
         LOGGER.debug("What is {}", animalName);
         return openAIService.whatIs(aOrAn(animalName), animalName);
     }

@@ -1,9 +1,11 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
+
 import java.util.Set;
 
 public class SpiritAnimalTestUtils {
-
 
     public static void addAnimals() {
         SpiritAnimal.addAnimals(Set.of(

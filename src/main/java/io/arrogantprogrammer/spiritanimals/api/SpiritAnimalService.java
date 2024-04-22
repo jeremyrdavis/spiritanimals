@@ -5,7 +5,7 @@ import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.SpritAnima
 public interface SpiritAnimalService {
     SpiritAnimalWorkflow assignSpiritAnimalFor(String name);
 
-    String whatIs(String animalName);
+    SpiritAnimalWorkflow whatIs(SpiritAnimalWorkflow spiritAnimalWorkflow);
 
     String writeAPoem(String animalName);
 
