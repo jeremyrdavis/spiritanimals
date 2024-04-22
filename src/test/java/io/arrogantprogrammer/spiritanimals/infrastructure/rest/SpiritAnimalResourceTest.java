@@ -32,7 +32,7 @@ public class SpiritAnimalResourceTest {
                 .statusCode(201)
                 .body("id", notNullValue())
                 .body("name", is("Jar Jar Binks"))
-                .body("animalName", notNullValue());
+                .body("spiritAnimal", notNullValue());
 
     }
 }

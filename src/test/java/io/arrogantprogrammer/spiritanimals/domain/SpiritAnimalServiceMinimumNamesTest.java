@@ -22,6 +22,6 @@ public class SpiritAnimalServiceMinimumNamesTest {
         LOGGER.info("Testing getAnimal");
         int currentNumberOfNames = SpiritAnimal.remainingAnimalNames();
         spiritAnimalService.assignSpiritAnimalFor("R2D2");
-        assertTrue(SpiritAnimal.remainingAnimalNames() >= 50);
+        assertTrue(SpiritAnimal.remainingAnimalNames() >= 1);
     }
 }

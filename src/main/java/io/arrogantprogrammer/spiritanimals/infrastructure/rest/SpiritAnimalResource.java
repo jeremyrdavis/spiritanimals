@@ -1,6 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
 
 
+import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalServiceImpl;
 import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.SpritAnimalAssignmentRecord;
 import jakarta.inject.Inject;
@@ -23,9 +24,9 @@ public class SpiritAnimalResource {
     @Transactional
     public Response assignSpiritAnimal(final String name) {
         LOGGER.debug("Assigning spirit animal for {}", name);
-        SpritAnimalAssignmentRecord spritAnimalAssignmentRecord = spiritAnimalService.assignSpiritAnimalFor(name);
-        LOGGER.debug("Assigned spirit animal for {}: {}", name, spritAnimalAssignmentRecord.animalName());
-        return Response.status(201).entity(spritAnimalAssignmentRecord).build();
+        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.assignSpiritAnimalFor(name);
+        LOGGER.debug("Assigned spirit animal for {}: {}", name, spiritAnimalWorkflow.spiritAnimal());
+        return Response.status(201).entity(spiritAnimalWorkflow).build();
     }
 
 //    @GET

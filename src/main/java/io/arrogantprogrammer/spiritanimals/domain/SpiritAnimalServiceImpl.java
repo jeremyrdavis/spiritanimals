@@ -1,6 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
+import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
 import io.arrogantprogrammer.spiritanimals.infrastructure.rest.AnimalRestClient;
 import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.SpritAnimalAssignmentRecord;
 import io.arrogantprogrammer.spiritanimals.openai.OpenAIService;
@@ -34,11 +35,11 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
     SpiritAnimalAssignmentRepository spiritAnimalAssignmentRepository;
 
     @Override
-    public SpritAnimalAssignmentRecord assignSpiritAnimalFor(final String name) {
+    public SpiritAnimalWorkflow assignSpiritAnimalFor(final String name) {
         LOGGER.info("Assigning spirit animal for {}", name);
 
         // if we are out of names get more
-        if(SpiritAnimal.remainingAnimalNames() < 50) {
+        if(SpiritAnimal.remainingAnimalNames() <= 0) {
             Set<String> animalNames = getMoreAnimalNames();
             SpiritAnimal.addAnimals(animalNames);
         }
@@ -46,9 +47,12 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
         // assign the spirit animal
         SpiritAnimalAssignmentResult spiritAnimalAssignmentResult = assignSpiritAnimal(name);
         SpiritAnimalAssignment spiritAnimalAssignment = spiritAnimalAssignmentResult.spiritAnimalAssignment();
+
+        // persist the assignment
         spiritAnimalAssignmentRepository.persist(spiritAnimalAssignment);
+
         LOGGER.debug("Assigned and persisted spirit animal for {}: {}", name, spiritAnimalAssignment.getAnimalName());
-        return new SpritAnimalAssignmentRecord(spiritAnimalAssignmentResult.spiritAnimalAssignment().id, spiritAnimalAssignmentResult.spiritAnimalAssignment().name, spiritAnimalAssignmentResult.spiritAnimalAssignment().animalName);
+        return new SpiritAnimalWorkflow(spiritAnimalAssignmentResult.spiritAnimalAssignment().id, spiritAnimalAssignmentResult.spiritAnimalAssignment().name, spiritAnimalAssignmentResult.spiritAnimalAssignment().animalName);
     }
 
     @Override
