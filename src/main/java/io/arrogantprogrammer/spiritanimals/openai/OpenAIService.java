@@ -9,7 +9,7 @@ public interface OpenAIService {
     @UserMessage("""
                 What is {article} {animalName}?
             """)
-    String whatIs(final String article, final String character);
+    String whatIs(final String article, final String animalName);
 
     @UserMessage("""
                 Write a poem about {animalName} in the style of {poet}.

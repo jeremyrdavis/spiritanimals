@@ -60,17 +60,17 @@ public record SpiritAnimalWorkflow(
         }
 
         public Builder withWhatIs(String whatIs) {
-            this.whatIs = Optional.of(whatIs);
+            this.whatIs = Optional.ofNullable(whatIs);
             return this;
         }
 
         public Builder withPoem(String poem) {
-            this.poem = Optional.of(poem);
+            this.poem = Optional.ofNullable(poem);
             return this;
         }
 
         public Builder withUpdatedPoem(String updatedPoem) {
-            this.updatedPoem = Optional.of(updatedPoem);
+            this.updatedPoem = Optional.ofNullable(updatedPoem);
             return this;
         }
 

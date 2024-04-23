@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static io.arrogantprogrammer.spiritanimals.domain.SpiritAnimal.assignSpiritAnimal;
 
@@ -73,6 +74,7 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
         return new SpiritAnimalWorkflow.Builder()
                 .withId(workflow.id)
                 .withName(workflow.spiritAnimal.name)
+                .withWhatIs(workflow.getWhatIs().orElse(""))
                 .withSpiritAnimal(workflow.spiritAnimal.animalName)
                 .withPoem(poem)
                 .build();
@@ -115,9 +117,9 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
                 .withId(workflow.id)
                 .withName(workflow.spiritAnimal.name)
                 .withSpiritAnimal(workflow.spiritAnimal.animalName)
-                .withWhatIs(workflow.getWhatIs().orElse(""))
-                .withPoem(workflow.getPoem().orElse(""))
-                .withUpdatedPoem(workflow.getUpdatedPoem().orElse(""))
+                .withWhatIs(workflow.getWhatIs().orElse(null))
+                .withPoem(workflow.getPoem().orElse(null))
+                .withUpdatedPoem(workflow.getUpdatedPoem().orElse(null))
                 .isLiked()
                 .build();
     }
