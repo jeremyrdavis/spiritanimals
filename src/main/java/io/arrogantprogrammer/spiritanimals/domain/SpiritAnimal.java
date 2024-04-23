@@ -1,45 +1,76 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
-import java.util.*;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class SpiritAnimal {
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-    static Set<String> animalNames = new HashSet<String>();
+@Entity
+public class SpiritAnimal extends PanacheEntity {
 
-    static Set<String> assignedAnimalNames = new HashSet<String>();
-
-    static void addAnimal(String animalName) {
-        animalNames.add(animalName);
+    String name;
+    String animalName;
+    boolean liked;
+    public SpiritAnimal() {
     }
+
+    public SpiritAnimal(String name, String animalName) {
+        this.name = name;
+        this.animalName = animalName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAnimalName() {
+        return animalName;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    @Override
+    public String toString() {
+        return "SpiritAnimal{" +
+                "name='" + name + '\'' +
+                ", animalName='" + animalName + '\'' +
+                ", liked=" + liked +
+                ", id=" + id +
+                '}';
+    }
+
+    // Business Logic
+    //====================================================================================================
+    @Transient
+    static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimal.class);
+    @Transient
+    static Set<String> animalNames = new HashSet<String>();
+    @Transient
+    static Set<String> assignedAnimalNames = new HashSet<String>();
 
     /**
      * Add more names to the list of available animal names, filtering out animals that are already assigned
      * @param animalNames
      */
-    static void addAnimals(Collection<String> animalNames) {
-        animalNames.forEach(name -> {
-            if(!assignedAnimalNames.contains(name))
-                SpiritAnimal.addAnimal(name);
-        });
-    }
-
-    static int remainingAnimalNames() {
-        return animalNames.size();
-    }
-    static Set<String> getAnimalNames() {
-        return animalNames;
-    }
-
-    static SpiritAnimalAssignmentResult assignSpiritAnimal(final String name) {
-
+    static SpiritAnimal assignSpiritAnimal(final String name) {
         if (animalNames.isEmpty()) {
-            return new SpiritAnimalAssignmentResult(new SpiritAnimalAssignment(name, "Moose"), animalNames.size());
-        }else{
-            String animalName = randomAnimalName();
-            animalNames.remove(animalName);
-            assignedAnimalNames.add(animalName);
-            return new SpiritAnimalAssignmentResult(new SpiritAnimalAssignment(name, animalName), animalNames.size());
+            Stream<AnimalName> allAnimalNames = AnimalName.streamAll();
+            animalNames.addAll(allAnimalNames
+                    .map(p -> p.name)
+                    .collect(Collectors.toList()));
+            LOGGER.info("Loaded {} animal names", animalNames.size());
         }
+        return new SpiritAnimal(name, randomAnimalName());
     }
 
     static private String randomAnimalName() {

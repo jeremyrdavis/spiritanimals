@@ -10,7 +10,7 @@ public class Workflow extends PanacheEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    SpiritAnimalAssignment spiritAnimalAssignment;
+    SpiritAnimal spiritAnimal;
 
     @Lob
     String whatIs;
@@ -32,7 +32,7 @@ public class Workflow extends PanacheEntity {
     @Override
     public String toString() {
         return "Workflow{" +
-                "spiritAnimalAssignment=" + spiritAnimalAssignment +
+                "spiritAnimalAssignment=" + spiritAnimal +
                 ", whatIs='" + whatIs + '\'' +
                 ", poem='" + poem + '\'' +
                 ", updatedPoem='" + updatedPoem + '\'' +
@@ -42,12 +42,12 @@ public class Workflow extends PanacheEntity {
                 '}';
     }
 
-    public SpiritAnimalAssignment getSpiritAnimalAssignment() {
-        return spiritAnimalAssignment;
+    public SpiritAnimal getSpiritAnimal() {
+        return spiritAnimal;
     }
 
-    public void setSpiritAnimalAssignment(SpiritAnimalAssignment spiritAnimalAssignment) {
-        this.spiritAnimalAssignment = spiritAnimalAssignment;
+    public void setSpiritAnimal(SpiritAnimal spiritAnimalAssignment) {
+        this.spiritAnimal = spiritAnimalAssignment;
     }
 
     public Optional<String> getWhatIs() {

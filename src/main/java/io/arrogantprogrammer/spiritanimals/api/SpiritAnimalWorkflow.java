@@ -44,11 +44,6 @@ public record SpiritAnimalWorkflow(
         public Builder(){
 
         }
-        public Builder(String name, String spiritAnimal) {
-            this.name = name;
-            this.spiritAnimal = spiritAnimal;
-        }
-
         public Builder withName(String name) {
             this.name = name;
             return this;
@@ -61,11 +56,6 @@ public record SpiritAnimalWorkflow(
 
         public Builder withId(Long id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder withAccepted(boolean accepted) {
-            this.liked = accepted;
             return this;
         }
 

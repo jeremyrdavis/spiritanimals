@@ -2,9 +2,7 @@ package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
 
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
-import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalAssignment;
-import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalTestUtils;
-import io.arrogantprogrammer.spiritanimals.infrastructure.rest.domain.FeedbackJson;
+import io.arrogantprogrammer.spiritanimals.domain.FeedbackJson;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.core.MediaType;
@@ -15,7 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 @QuarkusTest
 public class SpiritAnimalResourceTest {
