@@ -1,8 +1,7 @@
-package io.arrogantprogrammer.spiritanimals.infrastructure.rest;
+package io.arrogantprogrammer.spiritanimals.dashboard.infrastructure;
 
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.core.MediaType;
@@ -15,7 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
 
 @QuarkusTest

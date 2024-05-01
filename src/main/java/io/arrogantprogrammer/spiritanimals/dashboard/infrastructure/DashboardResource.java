@@ -1,4 +1,4 @@
-package io.arrogantprogrammer.spiritanimals.infrastructure;
+package io.arrogantprogrammer.spiritanimals.dashboard.infrastructure;
 
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
 import jakarta.inject.Inject;
