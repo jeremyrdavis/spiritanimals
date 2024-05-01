@@ -143,6 +143,7 @@ public class SpiritAnimalResourceTest {
                 .body("feedback", is(feedbackJson.feedback()));
     }
 
+
     String whatIsRequestJson = """
             {
                 "id": 1,

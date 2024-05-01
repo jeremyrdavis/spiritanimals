@@ -19,12 +19,19 @@ public class SpiritAnimal extends PanacheEntity {
     String name;
     String animalName;
     boolean liked;
+
     public SpiritAnimal() {
     }
 
     public SpiritAnimal(String name, String animalName) {
         this.name = name;
         this.animalName = animalName;
+    }
+
+    SpiritAnimal(String name, String animalName, boolean liked) {
+        this.name = name;
+        this.animalName = animalName;
+        this.liked = liked;
     }
 
     public String getName() {

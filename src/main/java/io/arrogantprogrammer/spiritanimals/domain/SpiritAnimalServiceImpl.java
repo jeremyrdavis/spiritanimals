@@ -1,5 +1,6 @@
 package io.arrogantprogrammer.spiritanimals.domain;
 
+import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
 import io.arrogantprogrammer.spiritanimals.openai.OpenAIService;
@@ -10,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static io.arrogantprogrammer.spiritanimals.domain.SpiritAnimal.assignSpiritAnimal;
 
@@ -138,6 +138,17 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
                 .withUpdatedPoem(workflow.updatedPoem)
                 .withFeedback(workflow.feedback)
                 .build();
+    }
+
+    @Override
+    public List<SpiritAnimalRecord> allSpiritAnimals() {
+        return spiritAnimalRepository.listAll().stream().map(spiritAnimal -> new SpiritAnimalRecord(spiritAnimal.id, spiritAnimal.name, spiritAnimal.animalName, spiritAnimal.liked)).toList();
+    }
+
+    @Override
+    public SpiritAnimalRecord getSpiritAnimalById(final Long id) {
+        SpiritAnimal spiritAnimal = spiritAnimalRepository.findById(id);
+        return new SpiritAnimalRecord(spiritAnimal.id, spiritAnimal.name, spiritAnimal.animalName, spiritAnimal.liked);
     }
 
     String aOrAn(String animalName) {
