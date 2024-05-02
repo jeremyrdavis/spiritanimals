@@ -4,6 +4,7 @@ import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public class FeedbackServiceTest {
     @Inject
     FeedbackRepository feedbackRepository;
 
-    @Test
+    @Test @Transactional
     public void testProcessFeedback() {
         LOGGER.info("Testing processFeedback");
         feedbackService.processFeedback(new FeedbackRecord(1L, "I loved it!"));

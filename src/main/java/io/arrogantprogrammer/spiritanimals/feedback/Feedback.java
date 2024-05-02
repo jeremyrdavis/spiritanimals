@@ -11,7 +11,7 @@ public class Feedback extends PanacheEntity {
 
     Long workflowId;
 
-    @Lob
+    @Lob()
     String feedback;
     @Enumerated(EnumType.STRING)
     SENTIMENT sentiment;
