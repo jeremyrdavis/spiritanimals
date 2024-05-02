@@ -2,10 +2,13 @@ package io.arrogantprogrammer.spiritanimals.feedback;
 
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +24,16 @@ public class FeedbackServiceTest {
 
     @Inject
     FeedbackRepository feedbackRepository;
+
+    @InjectMock
+    FeedbackAiClient feedbackAiClient;
+
+    @BeforeEach
+    public void setUp() {
+        LOGGER.info("Setting up test");
+        Mockito.when(feedbackAiClient.analyze(1L, "I loved it!"))
+                .thenReturn(new Feedback(1L, "I loved it!", SENTIMENT.NEGATIVE));
+    }
 
     @Test @Transactional
     public void testProcessFeedback() {

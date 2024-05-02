@@ -27,6 +27,7 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
     @Inject
     SpiritAnimalRepository spiritAnimalRepository;
 
+
     @Override
     public SpiritAnimalWorkflow assignSpiritAnimalFor(final String name) {
         LOGGER.info("Assigning spirit animal for {}", name);

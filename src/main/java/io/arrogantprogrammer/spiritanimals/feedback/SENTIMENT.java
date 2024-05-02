@@ -4,5 +4,5 @@ public enum SENTIMENT {
 
     POSITIVE,
     NEGATIVE,
-    NEUTRAL;
+    NEUTRAL, UNDETERMINED;
 }

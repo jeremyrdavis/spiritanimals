@@ -16,11 +16,15 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Inject
     FeedbackRepository feedbackRepository;
 
+    @Inject
+    FeedbackAiClient feedbackAiClient;
+
     @Override @Transactional
     public void processFeedback(FeedbackRecord feedbackRecord) {
         LOGGER.info("Processing feedback: {}", feedbackRecord);
-        Feedback feedback = new Feedback(feedbackRecord.workflowId(), feedbackRecord.feedback());
-        feedbackRepository.persist(feedback);
-        LOGGER.info("Feedback persisted: {}", feedback);
+        Feedback result = feedbackAiClient.analyze(feedbackRecord.workflowId(), feedbackRecord.feedback());
+        LOGGER.info("Received: {}", result);
+        feedbackRepository.persist(result);
+        LOGGER.info("Feedback persisted: {}", result);
     }
 }
