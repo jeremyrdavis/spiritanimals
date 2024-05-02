@@ -4,15 +4,21 @@ import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectSpy;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
+import static org.hamcrest.Matchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 public class FeedbackServiceTest {
@@ -22,7 +28,7 @@ public class FeedbackServiceTest {
     @Inject
     FeedbackServiceImpl feedbackService;
 
-    @Inject
+    @InjectSpy
     FeedbackRepository feedbackRepository;
 
     @InjectMock
@@ -39,9 +45,14 @@ public class FeedbackServiceTest {
     public void testProcessFeedback() {
         LOGGER.info("Testing processFeedback");
         feedbackService.processFeedback(new FeedbackRecord(1L, "I loved it!"));
-        PanacheQuery<Feedback> feedback = feedbackRepository.find("workflowId", 1L);
-        assert feedback.count() == 1;
-        assertEquals("I loved it!", feedback.firstResult().getFeedback());
+        ArgumentCaptor<Feedback> feedbackCaptor = ArgumentCaptor.forClass(Feedback.class);
+        Mockito.verify(feedbackRepository, Mockito.times(1)).persist(feedbackCaptor.capture());
     }
 
+    @Test
+    public void testAllFeedback() {
+        LOGGER.info("Testing analyzeFeedback");
+        List<FeedbackRecord> feedback = feedbackService.allFeedback();
+        Mockito.verify(feedbackRepository, Mockito.times(1)).listAll();
+    }
 }

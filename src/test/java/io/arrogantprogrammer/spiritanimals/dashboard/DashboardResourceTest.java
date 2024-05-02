@@ -1,7 +1,10 @@
-package io.arrogantprogrammer.spiritanimals.dashboard.infrastructure;
+package io.arrogantprogrammer.spiritanimals.dashboard;
 
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
+import io.arrogantprogrammer.spiritanimals.feedback.SENTIMENT;
+import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
+import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackService;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.core.MediaType;
@@ -26,6 +29,9 @@ public class DashboardResourceTest {
     @InjectMock
     SpiritAnimalService spiritAnimalService;
 
+    @InjectMock
+    FeedbackService feedbackService;
+
     @BeforeEach
     public void setUp() {
         LOGGER.info("Setting up test");
@@ -38,6 +44,13 @@ public class DashboardResourceTest {
                         new SpiritAnimalRecord(1L, "Lucy", "Reef Shark", false),
                         new SpiritAnimalRecord(2L, "Snoopy", "Polar Bear", false),
                         new SpiritAnimalRecord(3L, "Charlie Brown", "Ferret", false)));              ;
+
+        Mockito.when(feedbackService.allFeedback()).thenReturn(Arrays.asList(
+                new FeedbackRecord(1L, "Great job!", SENTIMENT.POSITIVE),
+                new FeedbackRecord(2L, "Not so good", SENTIMENT.NEGATIVE),
+                new FeedbackRecord(3L, "I'm not sure", SENTIMENT.NEUTRAL),
+                new FeedbackRecord(4L, "I'm not sure", SENTIMENT.NEUTRAL),
+                new FeedbackRecord(5L, "I'm not sure", SENTIMENT.UNDETERMINED)));
     }
 
     @Test
@@ -58,5 +71,14 @@ public class DashboardResourceTest {
                 .when().get("/dashboard/")
                 .then()
                 .statusCode(200).body("$", hasSize(3));
+    }
+
+    @Test
+    public void testGetAllFeedback() {
+        given()
+                .with().contentType(MediaType.APPLICATION_JSON)
+                .when().get("/dashboard/feedback")
+                .then()
+                .statusCode(200).body("$", hasSize(5));
     }
 }

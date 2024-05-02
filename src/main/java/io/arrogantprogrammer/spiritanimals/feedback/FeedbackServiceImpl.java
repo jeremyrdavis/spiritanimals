@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 @ApplicationScoped
 public class FeedbackServiceImpl implements FeedbackService {
 
@@ -26,5 +28,12 @@ public class FeedbackServiceImpl implements FeedbackService {
         LOGGER.info("Received: {}", result);
         feedbackRepository.persist(result);
         LOGGER.info("Feedback persisted: {}", result);
+    }
+
+    @Override
+    public List<FeedbackRecord> allFeedback() {
+        return feedbackRepository.listAll().stream().map(feedback -> {
+            return new FeedbackRecord(feedback.getWorkflowId(), feedback.getFeedback(), feedback.getSentiment());
+        }).toList();
     }
 }
