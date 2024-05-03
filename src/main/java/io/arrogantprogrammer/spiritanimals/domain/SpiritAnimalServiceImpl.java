@@ -111,9 +111,12 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
     @Override
     public SpiritAnimalWorkflow like(final Long id) {
         LOGGER.debug("Liking spirit animal for id: {}", id);
+        SpiritAnimal spiritAnimal = spiritAnimalRepository.findById(id);
+        spiritAnimal.setLiked(true);
         Workflow workflow = spiritAnimalRepository.findWorkflowById(id);
         workflow.setLiked(true);
         spiritAnimalRepository.persistWorkflow(workflow);
+        spiritAnimalRepository.persist(spiritAnimal);
         return new SpiritAnimalWorkflow.Builder()
                 .withId(workflow.id)
                 .withName(workflow.spiritAnimal.name)

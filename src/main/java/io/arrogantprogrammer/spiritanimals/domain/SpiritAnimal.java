@@ -46,6 +46,18 @@ public class SpiritAnimal extends PanacheEntity {
         return liked;
     }
 
+    void setName(String name) {
+        this.name = name;
+    }
+
+    void setAnimalName(String animalName) {
+        this.animalName = animalName;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
     @Override
     public String toString() {
         return "SpiritAnimal{" +
