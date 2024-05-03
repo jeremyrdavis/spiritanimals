@@ -26,7 +26,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build Docker image
-        run: docker build --file src/main/docker/Dockerfile.jvm -t devnexus2024-monolith .
+        run: docker build --file src/main/docker/Dockerfile.jvm -t spiritanimals-monolith .
 
       - name: Push Docker image
         run: |
