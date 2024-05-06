@@ -1,8 +1,8 @@
 package io.arrogantprogrammer.spiritanimals.api;
 
-import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimal;
+import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalRepository;
-import io.arrogantprogrammer.spiritanimals.domain.Workflow;
+import io.arrogantprogrammer.spiritanimals.workflow.Workflow;
 import io.quarkus.test.Mock;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class MockSpiritAnimalRepository extends SpiritAnimalRepository {
         LOGGER.info("Finding workflow for id: {}", id);
         Workflow workflow = new Workflow();
         workflow.id = id;
-        workflow.setSpiritAnimal(new SpiritAnimal("Snoopy", "Beagle"));
+        workflow.setSpiritAnimalRecord(new SpiritAnimalRecord(1L, "Snoopy", "Beagle", false));
         workflow.setWhatIs("A racoon is a small mammal with a mask.");
         workflow.setPoem("Racoons are cute and cuddly.  And a little bit sneaky.");
         workflow.setUpdatedPoem("Racoons are cute and cuddly.  And a little bit sneaky.  They are also very smart.");

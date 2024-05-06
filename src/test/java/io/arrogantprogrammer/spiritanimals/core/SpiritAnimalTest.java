@@ -1,7 +1,6 @@
-package io.arrogantprogrammer.spiritanimals.domain;
+package io.arrogantprogrammer.spiritanimals.core;
 
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

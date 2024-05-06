@@ -1,10 +1,10 @@
-package io.arrogantprogrammer.spiritanimals.openai;
+package io.arrogantprogrammer.spiritanimals.workflow;
 
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
 @RegisterAiService
-public interface OpenAIService {
+public interface WorkflowAIService {
 
     @UserMessage("""
                 What is {article} {animalName}?

@@ -1,5 +1,7 @@
-package io.arrogantprogrammer.spiritanimals.domain;
+package io.arrogantprogrammer.spiritanimals.workflow;
 
+import io.arrogantprogrammer.spiritanimals.core.SpiritAnimal;
+import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
@@ -8,9 +10,14 @@ import java.util.Optional;
 @Entity
 public class Workflow extends PanacheEntity {
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
-    SpiritAnimal spiritAnimal;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "name", column = @Column(name = "name")),
+            @AttributeOverride( name = "animalName", column = @Column(name = "animalName")),
+            @AttributeOverride( name = "id", column = @Column(name = "spirtitAnimaId")),
+            @AttributeOverride( name = "liked", column = @Column(name = "liked"))
+    })
+    SpiritAnimalRecord spiritAnimalRecord;
 
     @Lob
     String whatIs;
@@ -29,10 +36,19 @@ public class Workflow extends PanacheEntity {
     public Workflow() {
     }
 
+    Workflow(SpiritAnimalRecord spiritAnimalRecord, String whatIs, String poem, String updatedPoem, boolean isLiked, String feedback) {
+        this.spiritAnimalRecord = spiritAnimalRecord;
+        this.whatIs = whatIs;
+        this.poem = poem;
+        this.updatedPoem = updatedPoem;
+        this.isLiked = isLiked;
+        this.feedback = feedback;
+    }
+
     @Override
     public String toString() {
         return "Workflow{" +
-                "spiritAnimalAssignment=" + spiritAnimal +
+                "spiritAnimalAssignment=" + spiritAnimalRecord +
                 ", whatIs='" + whatIs + '\'' +
                 ", poem='" + poem + '\'' +
                 ", updatedPoem='" + updatedPoem + '\'' +
@@ -42,12 +58,12 @@ public class Workflow extends PanacheEntity {
                 '}';
     }
 
-    public SpiritAnimal getSpiritAnimal() {
-        return spiritAnimal;
+    public SpiritAnimalRecord getSpiritAnimalRecord() {
+        return spiritAnimalRecord;
     }
 
-    public void setSpiritAnimal(SpiritAnimal spiritAnimalAssignment) {
-        this.spiritAnimal = spiritAnimalAssignment;
+    public void setSpiritAnimalRecord(SpiritAnimalRecord spiritAnimalRecord) {
+        this.spiritAnimalRecord = spiritAnimalRecord;
     }
 
     public Optional<String> getWhatIs() {

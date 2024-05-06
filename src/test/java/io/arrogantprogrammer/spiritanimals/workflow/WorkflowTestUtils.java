@@ -1,6 +1,11 @@
-package io.arrogantprogrammer.spiritanimals.openai;
+package io.arrogantprogrammer.spiritanimals.workflow;
 
-public class OpenAITestUtils {
+import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
+import io.arrogantprogrammer.spiritanimals.domain.FeedbackJson;
+
+public class WorkflowTestUtils {
+
+    public static final Workflow WORKFLOW = new Workflow(new SpiritAnimalRecord(1L, "Peppermint Patty", "Moose", false), null, null, null, false, null);
 
     public static final String WHAT_IS_A_MOOSE = """
         A moose is the largest extant species in the deer family. They are known for their distinctive appearance, featuring long legs, a humped back, a drooping nose, and a large flap of skin known as a "bell" hanging from their throat. Moose are primarily found in the northern regions of North America, Europe, and Asia, inhabiting forests and marshy areas. They are herbivores, feeding on a diet consisting mainly of vegetation such as twigs, leaves, and aquatic plants. Male moose, called bulls, typically have large, palmate antlers, which they use for defense, attracting mates, and dominance displays during the breeding season. Female moose, called cows, are generally smaller and lack antlers. Moose are solitary animals for much of the year, except during the mating season and when a cow is caring for her calf. They are iconic symbols of the wilderness in many areas where they are found.            
@@ -80,6 +85,8 @@ public class OpenAITestUtils {
             Of nature's wonder, beating heart.
             """;
 
+    static final String FEEDBACK_TEXT = "I love my spirit animal!";
+    static final FeedbackJson FEEDBACK_JSON = new FeedbackJson(237L, FEEDBACK_TEXT);
 
 
 }

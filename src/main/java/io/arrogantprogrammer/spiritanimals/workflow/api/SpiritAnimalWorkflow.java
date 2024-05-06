@@ -1,4 +1,4 @@
-package io.arrogantprogrammer.spiritanimals.api;
+package io.arrogantprogrammer.spiritanimals.workflow.api;
 
 import java.util.Optional;
 

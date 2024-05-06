@@ -1,7 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.dashboard;
 
-import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalRecord;
-import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
+import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
+import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.feedback.SENTIMENT;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackService;

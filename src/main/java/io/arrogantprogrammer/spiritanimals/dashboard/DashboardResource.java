@@ -1,7 +1,6 @@
 package io.arrogantprogrammer.spiritanimals.dashboard;
 
-import dev.langchain4j.agent.tool.P;
-import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
+import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;

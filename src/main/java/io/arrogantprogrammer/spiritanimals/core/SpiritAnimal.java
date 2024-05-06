@@ -1,12 +1,14 @@
-package io.arrogantprogrammer.spiritanimals.domain;
+package io.arrogantprogrammer.spiritanimals.core;
 
+import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
+import io.arrogantprogrammer.spiritanimals.domain.AnimalName;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -32,6 +34,10 @@ public class SpiritAnimal extends PanacheEntity {
         this.name = name;
         this.animalName = animalName;
         this.liked = liked;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -81,11 +87,12 @@ public class SpiritAnimal extends PanacheEntity {
      * Add more names to the list of available animal names, filtering out animals that are already assigned
      * @param animalNames
      */
+    @Transactional
     static SpiritAnimal assignSpiritAnimal(final String name) {
         if (animalNames.isEmpty()) {
             Stream<AnimalName> allAnimalNames = AnimalName.streamAll();
             animalNames.addAll(allAnimalNames
-                    .map(p -> p.name)
+                    .map(p -> p.getName())
                     .collect(Collectors.toList()));
             LOGGER.info("Loaded {} animal names", animalNames.size());
         }

@@ -1,8 +1,8 @@
-package io.arrogantprogrammer.spiritanimals.infrastructure;
+package io.arrogantprogrammer.spiritanimals.workflow;
 
 
-import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowService;
+import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
 import io.arrogantprogrammer.spiritanimals.domain.FeedbackJson;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -14,19 +14,19 @@ import org.slf4j.LoggerFactory;
 
 @Path("/spiritanimals")
 @Produces(MediaType.APPLICATION_JSON)
-public class SpiritAnimalResource {
+public class WorkflowResource {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimalResource.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(WorkflowResource.class);
 
     @Inject
-    SpiritAnimalService spiritAnimalService;
+    WorkflowService workflowService;
 
     @POST
     @Path("/assign")
     @Transactional
     public Response assignSpiritAnimal(final String name) {
         LOGGER.debug("Assigning spirit animal for {}", name);
-        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.assignSpiritAnimalFor(name);
+        SpiritAnimalWorkflow spiritAnimalWorkflow = workflowService.assignSpiritAnimalFor(name);
         LOGGER.debug("Assigned spirit animal for {}: {}", name, spiritAnimalWorkflow.spiritAnimal());
         return Response.status(201).entity(spiritAnimalWorkflow).build();
     }
@@ -36,7 +36,7 @@ public class SpiritAnimalResource {
     @Transactional
     public Response whatIs(final Long id) {
         LOGGER.debug("whatIs for id: {}", id);
-        SpiritAnimalWorkflow whatIsResult = spiritAnimalService.whatIs(id);
+        SpiritAnimalWorkflow whatIsResult = workflowService.whatIs(id);
         return Response.status(201).entity(whatIsResult).build();
     }
 
@@ -45,7 +45,7 @@ public class SpiritAnimalResource {
     @Transactional
     public Response poem(final Long id) {
         LOGGER.debug("Poem for spiritAnimalWorkflow:{}", id);
-        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.writeAPoem(id);
+        SpiritAnimalWorkflow spiritAnimalWorkflow = workflowService.writeAPoem(id);
         return Response.status(201).entity(spiritAnimalWorkflow).build();
     }
 
@@ -54,7 +54,7 @@ public class SpiritAnimalResource {
     @Transactional
     public Response addToPoem(final Long id) {
         LOGGER.debug("Adding to poem for spiritAnimalWorkflow:{}", id);
-        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.addToPoem(id);
+        SpiritAnimalWorkflow spiritAnimalWorkflow = workflowService.addToPoem(id);
         return Response.status(201).entity(spiritAnimalWorkflow).build();
     }
 
@@ -63,7 +63,7 @@ public class SpiritAnimalResource {
     @Transactional
     public Response like(final Long id) {
         LOGGER.debug("Liking spirit animal for id: {}", id);
-        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.like(id);
+        SpiritAnimalWorkflow spiritAnimalWorkflow = workflowService.like(id);
         return Response.status(200).entity(spiritAnimalWorkflow).build();
     }
 
@@ -72,7 +72,7 @@ public class SpiritAnimalResource {
     @Transactional
     public Response feedback(FeedbackJson feedbackJson) {
         LOGGER.debug("Feedback spirit animal for id: {}", feedbackJson.id());
-        SpiritAnimalWorkflow spiritAnimalWorkflow = spiritAnimalService.feedback(feedbackJson.id(), feedbackJson.feedback());
+        SpiritAnimalWorkflow spiritAnimalWorkflow = workflowService.feedback(feedbackJson.id(), feedbackJson.feedback());
         return Response.status(200).entity(spiritAnimalWorkflow).build();
     }
 

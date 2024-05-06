@@ -1,10 +1,10 @@
-package io.arrogantprogrammer.spiritanimals.api;
+package io.arrogantprogrammer.spiritanimals.workflow.api;
 
-import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimal;
+import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 
 import java.util.List;
 
-public interface SpiritAnimalService {
+public interface WorkflowService {
     SpiritAnimalWorkflow assignSpiritAnimalFor(String name);
 
     SpiritAnimalWorkflow whatIs(Long id);
@@ -17,7 +17,4 @@ public interface SpiritAnimalService {
 
     SpiritAnimalWorkflow feedback(Long id, final String feedback);
 
-    List<SpiritAnimalRecord> allSpiritAnimals();
-
-    SpiritAnimalRecord getSpiritAnimalById(Long id);
 }
