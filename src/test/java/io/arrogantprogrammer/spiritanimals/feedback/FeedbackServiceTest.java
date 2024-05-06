@@ -2,6 +2,7 @@ package io.arrogantprogrammer.spiritanimals.feedback;
 
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectSpy;
@@ -23,8 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @QuarkusTest
 public class FeedbackServiceTest {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(FeedbackServiceTest.class);
-
     @Inject
     FeedbackServiceImpl feedbackService;
 
@@ -36,14 +35,14 @@ public class FeedbackServiceTest {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+         Log.infof("Setting up test");
         Mockito.when(feedbackAiClient.analyze(1L, "I loved it!"))
                 .thenReturn(new Feedback(1L, "I loved it!", SENTIMENT.NEGATIVE));
     }
 
     @Test @Transactional
     public void testProcessFeedback() {
-        LOGGER.info("Testing processFeedback");
+         Log.infof("Testing processFeedback");
         feedbackService.processFeedback(new FeedbackRecord(1L, "I loved it!"));
         ArgumentCaptor<Feedback> feedbackCaptor = ArgumentCaptor.forClass(Feedback.class);
         Mockito.verify(feedbackRepository, Mockito.times(1)).persist(feedbackCaptor.capture());
@@ -51,7 +50,7 @@ public class FeedbackServiceTest {
 
     @Test
     public void testAllFeedback() {
-        LOGGER.info("Testing analyzeFeedback");
+         Log.infof("Testing analyzeFeedback");
         List<FeedbackRecord> feedback = feedbackService.allFeedback();
         Mockito.verify(feedbackRepository, Mockito.times(1)).listAll();
     }

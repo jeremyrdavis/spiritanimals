@@ -2,7 +2,8 @@ package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectSpy;
@@ -23,8 +24,6 @@ import static org.mockito.Mockito.doNothing;
 @QuarkusTest
 public class TestWorkflow04AddToPoem {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(TestWorkflow04AddToPoem.class);
-
     @Inject
     WorkflowServiceImpl workflowService;
     @InjectMock
@@ -38,7 +37,7 @@ public class TestWorkflow04AddToPoem {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(spiritAnimalService.assignSpiritAnimalFor("Peppermint Patty"))
                 .thenReturn(new SpiritAnimalRecord(1L, "Peppermint Patty", "Moose", false));
 
@@ -51,14 +50,14 @@ public class TestWorkflow04AddToPoem {
 
     @AfterEach
     public void tearDown() {
-        LOGGER.info("Tearing down test");
+         Log.infof("Tearing down test");
         Mockito.reset(spiritAnimalService, workflowAIService, workflowRespository);
     }
 
     @Test
     @Transactional
     public void testUpdatedPoem() {
-        SpiritAnimalWorkflow updatedPoemWorkflow = workflowService.addToPoem(1L);
+        WorkflowRecord updatedPoemWorkflow = workflowService.addToPoem(1L);
         assertEquals(updatedPoemWorkflow.updatedPoem().get(), WorkflowTestUtils.MOOSE_POEM_WITH_EDDIE_MURPHY);
     }
 }

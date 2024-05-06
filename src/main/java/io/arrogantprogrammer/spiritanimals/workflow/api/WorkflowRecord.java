@@ -14,7 +14,7 @@ import java.util.Optional;
  * @param updatedPoem
  * @param feedback
  */
-public record SpiritAnimalWorkflow(
+public record WorkflowRecord(
         Long id, String name, String spiritAnimal, boolean liked,
        Optional<String> whatIs, Optional<String> poem, Optional<String> updatedPoem, Optional<String> feedback){
 
@@ -24,7 +24,7 @@ public record SpiritAnimalWorkflow(
      * @param id
      * @param spiritAnimal
      */
-    public SpiritAnimalWorkflow(Long id, String name, String spiritAnimal) {
+    public WorkflowRecord(Long id, String name, String spiritAnimal) {
         this(id, name, spiritAnimal, false, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
     }
 
@@ -84,8 +84,8 @@ public record SpiritAnimalWorkflow(
             return this;
         }
 
-        public SpiritAnimalWorkflow build() {
-            return new SpiritAnimalWorkflow(id, name, spiritAnimal, liked, whatIs, poem, updatedPoem, feedback);
+        public WorkflowRecord build() {
+            return new WorkflowRecord(id, name, spiritAnimal, liked, whatIs, poem, updatedPoem, feedback);
         }
 
     }

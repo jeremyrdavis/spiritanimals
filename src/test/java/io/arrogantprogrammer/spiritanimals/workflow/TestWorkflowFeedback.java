@@ -1,17 +1,15 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.InjectSpy;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static io.arrogantprogrammer.spiritanimals.workflow.WorkflowTestUtils.FEEDBACK_JSON;
 import static io.restassured.RestAssured.given;
@@ -24,7 +22,6 @@ import static org.mockito.Mockito.doNothing;
 @QuarkusTest
 public class TestWorkflowFeedback {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(TestWorkflowFeedback.class);
     @Inject
     WorkflowServiceImpl workflowService;
     @InjectMock
@@ -35,14 +32,16 @@ public class TestWorkflowFeedback {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
-        Mockito.when(workflowRespository.findById(anyLong())).thenReturn(WorkflowTestUtils.WORKFLOW);
+        Log.infof("Setting up test");
+        Workflow workflow = WorkflowTestUtils.WORKFLOW;
+        workflow.id = 1L;
+        Mockito.when(workflowRespository.findById(anyLong())).thenReturn(workflow);
         doNothing().when(workflowRespository).persist(any(Workflow.class));
     }
 
     @AfterEach
     public void tearDown() {
-        LOGGER.info("Tearing down test");
+        Log.infof("Tearing down test");
         Mockito.reset(spiritAnimalService, workflowRespository);
     }
 

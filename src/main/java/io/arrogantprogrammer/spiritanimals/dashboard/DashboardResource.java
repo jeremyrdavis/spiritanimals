@@ -2,6 +2,7 @@ package io.arrogantprogrammer.spiritanimals.dashboard;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackService;
+import io.quarkus.logging.Log;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -13,8 +14,6 @@ import org.slf4j.LoggerFactory;
 @Path("/dashboard")
 public class DashboardResource {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(DashboardResource.class);
-
     @Inject
     SpiritAnimalService spiritAnimalService;
 
@@ -24,14 +23,14 @@ public class DashboardResource {
     @GET
     @Path("/{id}")
     public Response getSpiritAnimal(@PathParam("id") final Long id) {
-        LOGGER.info("Getting spirit animal by id: {}", id);
+        Log.infof("Getting spirit animal by id: %s", id);
         return Response.ok(spiritAnimalService.getSpiritAnimalById(id)).build();
     }
 
     @GET
     @Path("/")
     public Response allSpiritAnimals() {
-        LOGGER.info("Getting all spirit animals");
+         Log.infof("Getting all spirit animals");
         return Response.ok(spiritAnimalService.allSpiritAnimals()).build();
     }
 
@@ -39,7 +38,7 @@ public class DashboardResource {
     @GET
     @Path("/feedback")
     public Response allFeedback() {
-        LOGGER.info("Getting all feedback");
+         Log.infof("Getting all feedback");
         return Response.ok().entity(feedbackService.allFeedback()).build();
     }
 }

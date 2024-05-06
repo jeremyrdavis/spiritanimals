@@ -2,6 +2,7 @@ package io.arrogantprogrammer.spiritanimals.feedback;
 
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackService;
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -23,11 +24,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override @Transactional
     public void processFeedback(FeedbackRecord feedbackRecord) {
-        LOGGER.info("Processing feedback: {}", feedbackRecord);
+         Log.infof("Processing feedback: %s", feedbackRecord);
         Feedback result = feedbackAiClient.analyze(feedbackRecord.workflowId(), feedbackRecord.feedback());
-        LOGGER.info("Received: {}", result);
+         Log.infof("Received: %s", result);
         feedbackRepository.persist(result);
-        LOGGER.info("Feedback persisted: {}", result);
+         Log.infof("Feedback persisted: %s", result);
     }
 
     @Override

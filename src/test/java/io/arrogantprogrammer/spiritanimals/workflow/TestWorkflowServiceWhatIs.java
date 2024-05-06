@@ -1,7 +1,8 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
-import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -35,7 +36,7 @@ public class TestWorkflowServiceWhatIs {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(workflowRespository.findById(any(Long.class))).thenReturn(new Workflow(
                 new SpiritAnimalRecord(1L, "Peppermint Patty", "Moose", false),
                 null,
@@ -51,7 +52,7 @@ public class TestWorkflowServiceWhatIs {
 
     @AfterEach
     public void tearDown() {
-        LOGGER.info("Tearing down test");
+        Log.infof("Tearing down test");
         Mockito.reset(workflowRespository);
         Mockito.reset(workflowAIService);
     }
@@ -59,7 +60,7 @@ public class TestWorkflowServiceWhatIs {
     @Test
     @Transactional
     public void testWhatIs() {
-        SpiritAnimalWorkflow whatIsWorkflow = workflowService.whatIs(2L);
+        WorkflowRecord whatIsWorkflow = workflowService.whatIs(2L);
         assertNotNull(whatIsWorkflow.whatIs());
         assertTrue(whatIsWorkflow.whatIs().isPresent());
     }

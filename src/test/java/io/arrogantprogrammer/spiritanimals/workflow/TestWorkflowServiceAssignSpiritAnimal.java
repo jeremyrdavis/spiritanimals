@@ -2,7 +2,8 @@ package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -22,7 +23,6 @@ import static org.mockito.ArgumentMatchers.any;
 @QuarkusTest
 public class TestWorkflowServiceAssignSpiritAnimal {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(TestWorkflowServiceAssignSpiritAnimal.class);
     @Inject
     WorkflowServiceImpl workflowService;
 
@@ -34,13 +34,13 @@ public class TestWorkflowServiceAssignSpiritAnimal {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(spiritAnimalService.assignSpiritAnimalFor(any(String.class))).thenReturn(new SpiritAnimalRecord(1L, "Peppermint Patty", "Moose", false));
     }
 
     @AfterEach
     public void tearDown() {
-        LOGGER.info("Tearing down test");
+        Log.infof("Tearing down test");
         ArgumentCaptor<Workflow> argumentCaptor = ArgumentCaptor.forClass(Workflow.class);
         Mockito.verify(workflowRespository, Mockito.times(1)).persist(argumentCaptor.capture());
         Mockito.reset(workflowRespository);
@@ -50,9 +50,9 @@ public class TestWorkflowServiceAssignSpiritAnimal {
     @Test
     @Transactional
     public void testAssignSpiritAnimal() {
-        LOGGER.info("Testing assign spirit animal");
+        Log.infof("Testing assign spirit animal");
         // Test assigning a spirit animal
-        SpiritAnimalWorkflow workflow = workflowService.assignSpiritAnimalFor("Peppermint Patty");
+        WorkflowRecord workflow = workflowService.assignSpiritAnimalFor("Peppermint Patty");
         assertNotNull(workflow);
         assertEquals("Peppermint Patty", workflow.name());
         assertNotNull(workflow.spiritAnimal());

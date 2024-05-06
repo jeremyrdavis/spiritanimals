@@ -3,6 +3,7 @@ package io.arrogantprogrammer.spiritanimals.core;
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.domain.AnimalName;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.logging.Log;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
@@ -77,8 +78,6 @@ public class SpiritAnimal extends PanacheEntity {
     // Business Logic
     //====================================================================================================
     @Transient
-    static final Logger LOGGER = LoggerFactory.getLogger(SpiritAnimal.class);
-    @Transient
     static Set<String> animalNames = new HashSet<String>();
     @Transient
     static Set<String> assignedAnimalNames = new HashSet<String>();
@@ -94,7 +93,7 @@ public class SpiritAnimal extends PanacheEntity {
             animalNames.addAll(allAnimalNames
                     .map(p -> p.getName())
                     .collect(Collectors.toList()));
-            LOGGER.info("Loaded {} animal names", animalNames.size());
+             Log.infof("Loaded %s animal names", animalNames.size());
         }
         return new SpiritAnimal(name, randomAnimalName());
     }

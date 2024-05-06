@@ -1,8 +1,8 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
-import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectSpy;
@@ -20,8 +20,6 @@ import static org.mockito.Mockito.doNothing;
 
 @QuarkusTest
 public class TestWorkflowLike {
-    static final Logger LOGGER = LoggerFactory.getLogger(TestWorkflowLike.class);
-
     @Inject
     WorkflowServiceImpl workflowService;
     @InjectMock
@@ -32,7 +30,7 @@ public class TestWorkflowLike {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(workflowRespository.findById(anyLong())).thenReturn(WorkflowTestUtils.WORKFLOW);
         doNothing().when(workflowRespository).persist(any(Workflow.class));
     }
@@ -40,8 +38,8 @@ public class TestWorkflowLike {
     @Test
     @Transactional
     public void testLiked() {
-        LOGGER.info("Testing liked");
-        SpiritAnimalWorkflow likedWorkflow = workflowService.like(2L);
+        Log.infof("Testing liked");
+        WorkflowRecord likedWorkflow = workflowService.like(2L);
         assertTrue(likedWorkflow.liked());
         Mockito.verify(workflowRespository).persist(any(Workflow.class));
     }

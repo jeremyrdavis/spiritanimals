@@ -1,14 +1,15 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
-import io.arrogantprogrammer.spiritanimals.core.SpiritAnimal;
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
 import java.util.Optional;
 
 @Entity
-public class Workflow extends PanacheEntity {
+public class Workflow {
+
+    @Id @GeneratedValue
+    Long id;
 
     @Embedded
     @AttributeOverrides({
@@ -64,6 +65,10 @@ public class Workflow extends PanacheEntity {
 
     public void setSpiritAnimalRecord(SpiritAnimalRecord spiritAnimalRecord) {
         this.spiritAnimalRecord = spiritAnimalRecord;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Optional<String> getWhatIs() {

@@ -1,7 +1,8 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
-import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -22,8 +23,6 @@ import static org.mockito.Mockito.doNothing;
 @QuarkusTest
 public class TestWorkflowServicePoem {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(TestWorkflowServicePoem.class);
-
     @Inject
     WorkflowServiceImpl workflowService;
 
@@ -36,7 +35,7 @@ public class TestWorkflowServicePoem {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+         Log.infof("Setting up test");
         Mockito.when(workflowRespository.findById(any(Long.class))).thenReturn(new Workflow(
                 new SpiritAnimalRecord(1L, "Peppermint Patty", "Moose", false),
                 WorkflowTestUtils.WHAT_IS_A_MOOSE,
@@ -52,14 +51,14 @@ public class TestWorkflowServicePoem {
 
     @AfterEach
     public void tearDown() {
-        LOGGER.info("Tearing down test");
+         Log.infof("Tearing down test");
         Mockito.reset(workflowRespository);
         Mockito.reset(workflowAIService);
     }
     @Test
     @Transactional
     public void testPoem() {
-        SpiritAnimalWorkflow poemWorkflow = workflowService.writeAPoem(2L);
+        WorkflowRecord poemWorkflow = workflowService.writeAPoem(2L);
         assertNotNull(poemWorkflow.poem());
         assertEquals(poemWorkflow.poem().get(), WorkflowTestUtils.MOOSE_POEM);
     }

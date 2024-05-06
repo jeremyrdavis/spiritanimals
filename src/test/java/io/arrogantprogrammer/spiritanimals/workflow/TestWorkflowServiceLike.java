@@ -2,7 +2,8 @@ package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectSpy;
@@ -23,8 +24,6 @@ import static org.mockito.Mockito.doNothing;
 @QuarkusTest
 public class TestWorkflowServiceLike {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(TestWorkflowServiceLike.class);
-
     @InjectSpy
     SpiritAnimalService spiritAnimalService;
 
@@ -36,7 +35,7 @@ public class TestWorkflowServiceLike {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(workflowRespository.findById(any(Long.class))).thenReturn(new Workflow(
                 new SpiritAnimalRecord(1L, "Peppermint Patty", "Moose", false),
                 WorkflowTestUtils.WHAT_IS_A_MOOSE,
@@ -51,7 +50,7 @@ public class TestWorkflowServiceLike {
 
     @AfterEach
     public void tearDown() {
-        LOGGER.info("Tearing down test");
+        Log.infof("Tearing down test");
         Mockito.verify(spiritAnimalService, Mockito.times(1)).like(any(Long.class));
         Mockito.reset(spiritAnimalService);
         Mockito.reset(workflowRespository);
@@ -60,8 +59,8 @@ public class TestWorkflowServiceLike {
     @Test
     @Transactional
     public void testLike() {
-        LOGGER.info("Testing liked");
-        SpiritAnimalWorkflow likedWorkflow = workflowService.like(2L);
+        Log.infof("Testing liked");
+        WorkflowRecord likedWorkflow = workflowService.like(2L);
         assertTrue(likedWorkflow.liked());
     }
 

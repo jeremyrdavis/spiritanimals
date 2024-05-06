@@ -2,6 +2,7 @@ package io.arrogantprogrammer.spiritanimals.core;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.domain.SpiritAnimalRepository;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -30,7 +31,7 @@ public class SpiritAnimalServiceTest {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(spiritAnimalRepository.listAll()).thenReturn(Stream.of(
                 new SpiritAnimal("Kirk", "elephant", true),
                 new SpiritAnimal("Spock", "dog", true),
@@ -44,13 +45,13 @@ public class SpiritAnimalServiceTest {
 
     @Test
     public void testAllSpiritAnimals() {
-        LOGGER.info("Running testAllSpiritAnimals");
+        Log.infof("Running testAllSpiritAnimals");
         assertEquals(5, spiritAnimalService.allSpiritAnimals().size());
     }
 
     @Test
     public void testFindSpiritAnimalById() {
-        LOGGER.info("Running testFindSpiritAnimalById");
+        Log.infof("Running testFindSpiritAnimalById");
         SpiritAnimalRecord spiritAnimal = spiritAnimalService.getSpiritAnimalById(1L);
         assertEquals("Kirk", spiritAnimal.name());
     }

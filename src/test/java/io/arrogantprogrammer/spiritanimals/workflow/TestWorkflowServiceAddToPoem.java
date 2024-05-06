@@ -1,7 +1,8 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
-import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -22,7 +23,6 @@ import static org.mockito.Mockito.doNothing;
 @QuarkusTest
 public class TestWorkflowServiceAddToPoem {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(TestWorkflowServiceAddToPoem.class);
     @Inject
     WorkflowServiceImpl workflowService;
 
@@ -34,7 +34,7 @@ public class TestWorkflowServiceAddToPoem {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(workflowRespository.findById(any(Long.class))).thenReturn(new Workflow(
                 new SpiritAnimalRecord(1L, "Peppermint Patty", "Moose", false),
                 WorkflowTestUtils.WHAT_IS_A_MOOSE,
@@ -50,7 +50,7 @@ public class TestWorkflowServiceAddToPoem {
 
     @AfterEach
     public void tearDown() {
-        LOGGER.info("Tearing down test");
+        Log.infof("Tearing down test");
         Mockito.reset(workflowRespository);
         Mockito.reset(workflowAIService);
     }
@@ -58,10 +58,10 @@ public class TestWorkflowServiceAddToPoem {
     @Test
     @Transactional
     public void testAddToPoem() {
-        SpiritAnimalWorkflow workflow = workflowService.assignSpiritAnimalFor("Peppermint Patty");
+        WorkflowRecord workflow = workflowService.assignSpiritAnimalFor("Peppermint Patty");
         assertNotNull(workflow);
         assertEquals("Peppermint Patty", workflow.name());
-        SpiritAnimalWorkflow updatedPoemWorkflow = workflowService.addToPoem(workflow.id());
+        WorkflowRecord updatedPoemWorkflow = workflowService.addToPoem(workflow.id());
         assertEquals(updatedPoemWorkflow.updatedPoem().get(), WorkflowTestUtils.MOOSE_POEM_WITH_EDDIE_MURPHY);
 
     }

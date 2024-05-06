@@ -1,5 +1,6 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -15,8 +16,6 @@ import static org.mockito.ArgumentMatchers.any;
 
 @QuarkusTest
 public class WorkflowServiceOpenAITest {
-    static final Logger LOGGER = LoggerFactory.getLogger(WorkflowServiceOpenAITest.class);
-
     @Inject
     WorkflowServiceImpl spiritAnimalService;
 
@@ -25,7 +24,7 @@ public class WorkflowServiceOpenAITest {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(workflowAIService.whatIs("a","moose")).thenReturn(WorkflowTestUtils.WHAT_IS_A_MOOSE);
         Mockito.when(workflowAIService.writeAPoem("a","moose")).thenReturn(WorkflowTestUtils.MOOSE_POEM);
         Mockito.when(workflowAIService.writeAPoem(any(String.class), any(String.class))).thenReturn(WorkflowTestUtils.MOOSE_POEM);
@@ -34,7 +33,7 @@ public class WorkflowServiceOpenAITest {
 
     @Test
     public void testWhatIs() {
-        LOGGER.info("Testing whatIs");
+        Log.infof("Testing whatIs");
         String whatIsResult = spiritAnimalService.whatIs("moose");
         assertNotNull(whatIsResult);
         assertEquals(WorkflowTestUtils.WHAT_IS_A_MOOSE, whatIsResult);
@@ -42,7 +41,7 @@ public class WorkflowServiceOpenAITest {
 
     @Test
     public void testWriteAPoem() {
-        LOGGER.info("Testing writeAPoem");
+        Log.infof("Testing writeAPoem");
         String poemResult = spiritAnimalService.getAPoemFromOpenAI("Jabba the Hut", "Sparrow");
         assertNotNull(poemResult);
         assertEquals(WorkflowTestUtils.MOOSE_POEM, poemResult);
@@ -50,7 +49,7 @@ public class WorkflowServiceOpenAITest {
 
     @Test
     public void testAddThisToThePoem() {
-        LOGGER.info("Testing addThisToThePoem");
+        Log.infof("Testing addThisToThePoem");
         String addThisToThePoemResult = spiritAnimalService.callLlmAddToPoem("moose", WorkflowTestUtils.MOOSE_POEM);
         assertNotNull(addThisToThePoemResult);
         assertEquals(WorkflowTestUtils.MOOSE_POEM_WITH_EDDIE_MURPHY, addThisToThePoemResult);

@@ -1,11 +1,10 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
-import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.InjectSpy;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
@@ -24,8 +23,6 @@ import static org.mockito.Mockito.doNothing;
 @QuarkusTest
 public class TestWorkflowServiceFeedback {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(TestWorkflowServiceFeedback.class);
-
     @InjectMock
     WorkflowRespository workflowRespository;
 
@@ -34,7 +31,7 @@ public class TestWorkflowServiceFeedback {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(workflowRespository.findById(any(Long.class))).thenReturn(new Workflow(
                 new SpiritAnimalRecord(1L, "Peppermint Patty", "Moose", false),
                 WorkflowTestUtils.WHAT_IS_A_MOOSE,
@@ -49,15 +46,15 @@ public class TestWorkflowServiceFeedback {
 
     @AfterEach
     public void tearDown() {
-        LOGGER.info("Tearing down test");
+        Log.infof("Tearing down test");
         Mockito.reset(workflowRespository);
     }
 
     @Test
     @Transactional
     public void testFeedback() {
-        LOGGER.info("Testing feedback");
-        SpiritAnimalWorkflow workflow = workflowService.feedback(237L, WorkflowTestUtils.FEEDBACK_TEXT);
+        Log.infof("Testing feedback");
+        WorkflowRecord workflow = workflowService.feedback(237L, WorkflowTestUtils.FEEDBACK_TEXT);
         assertNotNull(workflow);
         assertEquals(WorkflowTestUtils.FEEDBACK_TEXT, workflow.feedback().get());
     }

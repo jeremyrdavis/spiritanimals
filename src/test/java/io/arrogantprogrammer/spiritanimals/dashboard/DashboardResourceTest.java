@@ -5,6 +5,7 @@ import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.feedback.SENTIMENT;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackService;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.core.MediaType;
@@ -24,8 +25,6 @@ import static org.hamcrest.Matchers.hasSize;
 @QuarkusTest
 public class DashboardResourceTest {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(DashboardResourceTest.class);
-
     @InjectMock
     SpiritAnimalService spiritAnimalService;
 
@@ -34,7 +33,7 @@ public class DashboardResourceTest {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+         Log.infof("Setting up test");
 
         Mockito.when(spiritAnimalService.getSpiritAnimalById(1L))
                 .thenReturn(new SpiritAnimalRecord(1L, "Lucy", "Reef Shark", false));

@@ -2,7 +2,8 @@ package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.workflow.api.SpiritAnimalWorkflow;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectSpy;
@@ -23,7 +24,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 @QuarkusTest
 public class TestWorkflow02WhatIs {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(TestWorkflow02WhatIs.class);
     @Inject
     WorkflowServiceImpl workflowService;
     @InjectMock
@@ -37,7 +37,7 @@ public class TestWorkflow02WhatIs {
 
     @BeforeEach
     public void setUp() {
-        LOGGER.info("Setting up test");
+         Log.infof("Setting up test");
 
         // Mock the spirit animal service functionality
         Mockito.when(spiritAnimalService.assignSpiritAnimalFor("Peppermint Patty"))
@@ -49,7 +49,7 @@ public class TestWorkflow02WhatIs {
     @Test
     @Transactional
     public void testWhatIs() {
-        SpiritAnimalWorkflow whatIsWorkflow = workflowService.whatIs(1L);
+        WorkflowRecord whatIsWorkflow = workflowService.whatIs(1L);
         assertNotNull(whatIsWorkflow.whatIs());
         assertEquals(whatIsWorkflow.whatIs().get(), WorkflowTestUtils.WHAT_IS_A_MOOSE);
         ArgumentCaptor<Workflow> argumentCaptor = ArgumentCaptor.forClass(Workflow.class);
