@@ -5,6 +5,8 @@ import io.arrogantprogrammer.spiritanimals.domain.AnimalName;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.logging.Log;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -17,8 +19,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Entity
-public class SpiritAnimal extends PanacheEntity {
+public class SpiritAnimal {
 
+    @Id @GeneratedValue
+    Long id;
     String name;
     String animalName;
     boolean liked;
