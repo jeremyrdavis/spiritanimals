@@ -70,7 +70,7 @@ public class WorkflowResource {
     @Path("/feedback")
     @Transactional
     public Response feedback(FeedbackJson feedbackJson) {
-        Log.debugf("Feedback spirit animal for id: %s", feedbackJson.id());
+        Log.debugf("Feedback for id: %s", feedbackJson.id());
         WorkflowRecord workflowRecord = workflowService.feedback(feedbackJson.id(), feedbackJson.feedback());
         return Response.status(200).entity(workflowRecord).build();
     }
