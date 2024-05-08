@@ -74,8 +74,18 @@ public record WorkflowRecord(
             return this;
         }
 
+        public Builder liked(boolean liked) {
+            this.liked = liked;
+            return this;
+        }
+
         public Builder isLiked(){
             this.liked = true;
+            return this;
+        }
+
+        public Builder notLiked(){
+            this.liked = false;
             return this;
         }
 

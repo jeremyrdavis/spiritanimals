@@ -14,8 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,9 +49,6 @@ public class TestWorkflowServiceLike {
     @AfterEach
     public void tearDown() {
         Log.infof("Tearing down test");
-        Mockito.verify(spiritAnimalService, Mockito.times(1)).like(any(Long.class));
-        Mockito.reset(spiritAnimalService);
-        Mockito.reset(workflowRespository);
     }
 
     @Test
@@ -62,6 +57,7 @@ public class TestWorkflowServiceLike {
         Log.infof("Testing liked");
         WorkflowRecord likedWorkflow = workflowService.like(2L);
         assertTrue(likedWorkflow.liked());
+        Mockito.verify(spiritAnimalService, Mockito.times(1)).like(any(Long.class));
     }
 
 

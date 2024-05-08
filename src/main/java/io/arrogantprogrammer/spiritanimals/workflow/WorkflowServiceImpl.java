@@ -16,7 +16,7 @@ import java.util.List;
 @ApplicationScoped
 public class WorkflowServiceImpl implements WorkflowService {
 
-    static final List<String> letters = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
+    private static final List<String> letters = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
 
     @Inject
     SpiritAnimalService spiritAnimalService;
@@ -108,7 +108,7 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Override
     public WorkflowRecord like(final Long id) {
-         Log.debugf("Liking spirit animal for id: %s", id);
+        Log.debugf("Liking spirit animal for id: %s", id);
         spiritAnimalService.like(id);
         Workflow workflow = workflowRespository.findById(id);
         workflow.setLiked(true);
@@ -120,7 +120,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                 .withWhatIs(workflow.getWhatIs().orElse(null))
                 .withPoem(workflow.getPoem().orElse(null))
                 .withUpdatedPoem(workflow.getUpdatedPoem().orElse(null))
-                .isLiked()
+                .liked(workflow.isLiked())
                 .build();
     }
 
@@ -137,6 +137,7 @@ public class WorkflowServiceImpl implements WorkflowService {
                 .withPoem(workflow.poem)
                 .withUpdatedPoem(workflow.updatedPoem)
                 .withFeedback(workflow.feedback)
+                .liked(workflow.isLiked())
                 .build();
     }
 

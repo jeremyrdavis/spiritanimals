@@ -16,7 +16,7 @@ public class Workflow {
             @AttributeOverride( name = "name", column = @Column(name = "name")),
             @AttributeOverride( name = "animalName", column = @Column(name = "animalName")),
             @AttributeOverride( name = "id", column = @Column(name = "spirtitAnimaId")),
-            @AttributeOverride( name = "liked", column = @Column(name = "liked"))
+            @AttributeOverride( name = "liked", column = @Column(name = "isliked"))
     })
     SpiritAnimalRecord spiritAnimalRecord;
 
@@ -29,7 +29,7 @@ public class Workflow {
     @Lob
     String updatedPoem;
 
-    boolean isLiked;
+    boolean liked;
 
     @Lob
     String feedback;
@@ -37,12 +37,12 @@ public class Workflow {
     public Workflow() {
     }
 
-    Workflow(SpiritAnimalRecord spiritAnimalRecord, String whatIs, String poem, String updatedPoem, boolean isLiked, String feedback) {
+    Workflow(SpiritAnimalRecord spiritAnimalRecord, String whatIs, String poem, String updatedPoem, boolean liked, String feedback) {
         this.spiritAnimalRecord = spiritAnimalRecord;
         this.whatIs = whatIs;
         this.poem = poem;
         this.updatedPoem = updatedPoem;
-        this.isLiked = isLiked;
+        this.liked = liked;
         this.feedback = feedback;
     }
 
@@ -53,7 +53,7 @@ public class Workflow {
                 ", whatIs='" + whatIs + '\'' +
                 ", poem='" + poem + '\'' +
                 ", updatedPoem='" + updatedPoem + '\'' +
-                ", isLiked=" + isLiked +
+                ", isLiked=" + liked +
                 ", feedback='" + feedback + '\'' +
                 ", id=" + id +
                 '}';
@@ -96,11 +96,11 @@ public class Workflow {
     }
 
     public boolean isLiked() {
-        return isLiked;
+        return liked;
     }
 
     public void setLiked(boolean liked) {
-        isLiked = liked;
+        this.liked = liked;
     }
 
     public String getFeedback() {

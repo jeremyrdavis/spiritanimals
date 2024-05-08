@@ -36,7 +36,7 @@ public class WorkflowResource {
     public Response whatIs(final Long id) {
         Log.debugf("whatIs for id: %s", id);
         WorkflowRecord whatIsResult = workflowService.whatIs(id);
-        return Response.status(201).entity(whatIsResult).build();
+        return Response.status(200).entity(whatIsResult).build();
     }
 
     @POST

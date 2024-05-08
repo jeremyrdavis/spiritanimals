@@ -23,6 +23,8 @@ public class SpiritAnimalTest {
         assertEquals("Sally", spiritAnimal.getName());
         assertNotNull(spiritAnimal.getAnimalName());
 
+        LOGGER.info("Spirit Animal: {}", spiritAnimal);
+
         SpiritAnimal anotherSpiritAnimal = SpiritAnimal.assignSpiritAnimal("Linus");
         assertNotNull(anotherSpiritAnimal);
         assertEquals("Linus", anotherSpiritAnimal.getName());
