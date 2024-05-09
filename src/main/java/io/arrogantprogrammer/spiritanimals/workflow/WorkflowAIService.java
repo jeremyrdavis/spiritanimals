@@ -3,7 +3,7 @@ package io.arrogantprogrammer.spiritanimals.workflow;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService
+@RegisterAiService(tools = {AnimalApiTool.class})
 public interface WorkflowAIService {
 
     @UserMessage("""
