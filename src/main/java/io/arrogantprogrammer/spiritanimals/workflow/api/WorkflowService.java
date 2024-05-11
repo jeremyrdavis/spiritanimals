@@ -1,5 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.workflow.api;
 
+import java.util.List;
+
 public interface WorkflowService {
     WorkflowRecord assignSpiritAnimalFor(String name);
 
@@ -12,5 +14,7 @@ public interface WorkflowService {
     WorkflowRecord like(Long id);
 
     WorkflowRecord feedback(Long id, final String feedback);
+
+    List<WorkflowRecord> allWorkflows();
 
 }

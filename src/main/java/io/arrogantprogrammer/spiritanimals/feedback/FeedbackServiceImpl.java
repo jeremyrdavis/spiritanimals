@@ -24,11 +24,12 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override @Transactional
     public void processFeedback(FeedbackRecord feedbackRecord) {
-         Log.infof("Processing feedback: %s", feedbackRecord);
-        Feedback result = feedbackAiClient.analyze(feedbackRecord.workflowId(), feedbackRecord.feedback());
-         Log.infof("Received: %s", result);
-        feedbackRepository.persist(result);
-         Log.infof("Feedback persisted: %s", result);
+        Log.infof("Processing feedback: %s", feedbackRecord);
+        FeedbackRecord result = feedbackAiClient.analyze(feedbackRecord.workflowId(), feedbackRecord.feedback());
+        Log.infof("Received: %s", result);
+        Feedback feedback = new Feedback(feedbackRecord.workflowId(), feedbackRecord.feedback(), result.sentiment());
+        feedbackRepository.persist(feedback);
+        Log.infof("Feedback persisted: %s", result);
     }
 
     @Override

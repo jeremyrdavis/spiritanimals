@@ -4,6 +4,8 @@ import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
 import io.arrogantprogrammer.spiritanimals.domain.POET;
 import io.arrogantprogrammer.spiritanimals.domain.POETICADDITION;
+import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
+import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackService;
 import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
 import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowService;
 import io.quarkus.logging.Log;
@@ -12,6 +14,7 @@ import jakarta.inject.Inject;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class WorkflowServiceImpl implements WorkflowService {
@@ -26,6 +29,9 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Inject
     WorkflowAIService workflowAIService;
+
+    @Inject
+    FeedbackService feedbackService;
 
     @Override
     public WorkflowRecord assignSpiritAnimalFor(final String name) {
@@ -130,6 +136,7 @@ public class WorkflowServiceImpl implements WorkflowService {
         Workflow workflow = workflowRespository.findById(id);
         workflow.setFeedback(feedback);
         workflowRespository.persist(workflow);
+        feedbackService.processFeedback(new FeedbackRecord(workflow.getId(), workflow.getFeedback()));
         return new WorkflowRecord.Builder()
                 .withId(workflow.getId())
                 .withName(workflow.getSpiritAnimalRecord().name())
@@ -139,6 +146,21 @@ public class WorkflowServiceImpl implements WorkflowService {
                 .withFeedback(workflow.feedback)
                 .liked(workflow.isLiked())
                 .build();
+    }
+
+    @Override
+    public List<WorkflowRecord> allWorkflows() {
+        return workflowRespository.streamAll().map(workflow -> {
+            return new WorkflowRecord.Builder()
+                    .withId(workflow.getId())
+                    .withName(workflow.getSpiritAnimalRecord().name())
+                    .withSpiritAnimal(workflow.getSpiritAnimalRecord().animalName())
+                    .withPoem(workflow.poem)
+                    .withUpdatedPoem(workflow.updatedPoem)
+                    .withFeedback(workflow.feedback)
+                    .liked(workflow.isLiked())
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     String aOrAn(String animalName) {

@@ -10,7 +10,7 @@ public class Feedback {
     Long id;
     Long workflowId;
 
-    @Lob()
+    @Column(columnDefinition = "TEXT")
     String feedback;
     @Enumerated(EnumType.STRING)
     SENTIMENT sentiment;
@@ -44,7 +44,7 @@ public class Feedback {
     }
 
     public String getFeedback() {
-        return feedback;
+        return feedback.toString();
     }
 
     public SENTIMENT getSentiment() {

@@ -28,14 +28,14 @@ public class FeedbackServiceTest {
 
     @BeforeEach
     public void setUp() {
-         Log.infof("Setting up test");
+        Log.infof("Setting up test");
         Mockito.when(feedbackAiClient.analyze(1L, "I loved it!"))
-                .thenReturn(new Feedback(1L, "I loved it!", SENTIMENT.NEGATIVE));
+                .thenReturn(new FeedbackRecord(1L, "I loved it!", SENTIMENT.NEGATIVE));
     }
 
     @Test @Transactional
     public void testProcessFeedback() {
-         Log.infof("Testing processFeedback");
+        Log.infof("Testing processFeedback");
         feedbackService.processFeedback(new FeedbackRecord(1L, "I loved it!"));
         ArgumentCaptor<Feedback> feedbackCaptor = ArgumentCaptor.forClass(Feedback.class);
         Mockito.verify(feedbackRepository, Mockito.times(1)).persist(feedbackCaptor.capture());

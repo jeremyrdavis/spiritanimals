@@ -2,8 +2,6 @@ package io.arrogantprogrammer.spiritanimals.dashboard;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
-import io.arrogantprogrammer.spiritanimals.feedback.SENTIMENT;
-import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackService;
 import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
@@ -12,8 +10,6 @@ import jakarta.ws.rs.core.MediaType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -23,7 +19,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
 
 @QuarkusTest
-public class DashboardResourceTest {
+public class DashboardSpiritAnimalsTest {
 
     @InjectMock
     SpiritAnimalService spiritAnimalService;
@@ -44,19 +40,13 @@ public class DashboardResourceTest {
                         new SpiritAnimalRecord(2L, "Snoopy", "Polar Bear", false),
                         new SpiritAnimalRecord(3L, "Charlie Brown", "Ferret", false)));              ;
 
-        Mockito.when(feedbackService.allFeedback()).thenReturn(Arrays.asList(
-                new FeedbackRecord(1L, "Great job!", SENTIMENT.POSITIVE),
-                new FeedbackRecord(2L, "Not so good", SENTIMENT.NEGATIVE),
-                new FeedbackRecord(3L, "I'm not sure", SENTIMENT.NEUTRAL),
-                new FeedbackRecord(4L, "I'm not sure", SENTIMENT.NEUTRAL),
-                new FeedbackRecord(5L, "I'm not sure", SENTIMENT.UNDETERMINED)));
     }
 
     @Test
-    public void testGetById() {
+    public void testGetSpiritAnimalById() {
         given()
                 .with().contentType(MediaType.APPLICATION_JSON)
-                .when().get("/dashboard/1")
+                .when().get("/dashboard/spiritanimals/1")
                 .then()
                 .statusCode(200)
                 .body("id", notNullValue())
@@ -64,20 +54,12 @@ public class DashboardResourceTest {
     }
 
     @Test
-    public void testGetByAll() {
+    public void testGeAlSpiritAnimals() {
         given()
                 .with().contentType(MediaType.APPLICATION_JSON)
-                .when().get("/dashboard/")
+                .when().get("/dashboard/spiritanimals/")
                 .then()
                 .statusCode(200).body("$", hasSize(3));
     }
 
-    @Test
-    public void testGetAllFeedback() {
-        given()
-                .with().contentType(MediaType.APPLICATION_JSON)
-                .when().get("/dashboard/feedback")
-                .then()
-                .statusCode(200).body("$", hasSize(5));
-    }
 }

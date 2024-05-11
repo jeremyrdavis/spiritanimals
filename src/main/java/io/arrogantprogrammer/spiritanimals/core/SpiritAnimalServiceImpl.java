@@ -22,9 +22,11 @@ public class SpiritAnimalServiceImpl implements SpiritAnimalService {
         return new SpiritAnimalRecord(spiritAnimal.getId(), spiritAnimal.getName(), spiritAnimal.getAnimalName(), spiritAnimal.isLiked());
     }
 
-    @Override
+    @Override @Transactional
     public void like(Long id) {
-
+        SpiritAnimal spiritAnimal = spiritAnimalRepository.findById(id);
+        spiritAnimal.setLiked(true);
+        spiritAnimalRepository.persist(spiritAnimal);
     }
 
     @Override

@@ -57,6 +57,10 @@ public class SpiritAnimal {
         return liked;
     }
 
+    void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
     @Override
     public String toString() {
         return "SpiritAnimal{" +

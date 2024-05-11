@@ -1,15 +1,18 @@
 package io.arrogantprogrammer.spiritanimals.dashboard;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
+import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackService;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowRecord;
+import io.arrogantprogrammer.spiritanimals.workflow.api.WorkflowService;
 import io.quarkus.logging.Log;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 @Path("/dashboard")
 public class DashboardResource {
@@ -20,15 +23,18 @@ public class DashboardResource {
     @Inject
     FeedbackService feedbackService;
 
+    @Inject
+    WorkflowService workflowService;
+
     @GET
-    @Path("/{id}")
+    @Path("/spiritanimals/{id}")
     public Response getSpiritAnimal(@PathParam("id") final Long id) {
         Log.infof("Getting spirit animal by id: %s", id);
         return Response.ok(spiritAnimalService.getSpiritAnimalById(id)).build();
     }
 
     @GET
-    @Path("/")
+    @Path("/spiritanimals")
     public Response allSpiritAnimals() {
          Log.infof("Getting all spirit animals");
         return Response.ok(spiritAnimalService.allSpiritAnimals()).build();
@@ -39,6 +45,15 @@ public class DashboardResource {
     @Path("/feedback")
     public Response allFeedback() {
          Log.infof("Getting all feedback");
-        return Response.ok().entity(feedbackService.allFeedback()).build();
+         List<FeedbackRecord> allFeedback = feedbackService.allFeedback();
+         Log.debugf("Returning %s feedbacks", allFeedback.size());
+        return Response.ok().entity(allFeedback).build();
+    }
+
+    @GET
+    @Path("/workflow/all")
+    public Response allWorkflows() {
+        List<WorkflowRecord> allWorkflows = workflowService.allWorkflows();
+        return Response.ok().entity(allWorkflows).build();
     }
 }

@@ -2,6 +2,7 @@ package io.arrogantprogrammer.spiritanimals.feedback;
 
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
+import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.smallrye.faulttolerance.api.RateLimit;
 import org.eclipse.microprofile.faulttolerance.Fallback;
@@ -39,10 +40,7 @@ public interface FeedbackAiClient {
             {feedback}
             ---
             """)
-    @Retry(maxRetries = 2)
-    @Fallback(fallbackMethod = "fallback")
-    @RateLimit(value = 2, window = 10, windowUnit = ChronoUnit.SECONDS)
-    Feedback analyze(Long workflowId, String feedback);
+    FeedbackRecord analyze(Long workflowId, String feedback);
 
     static Feedback fallback(Long workflowId, String feedback) {
         LOGGER.error("Fallback for workflowId: {}, feedback: {}", workflowId, feedback);

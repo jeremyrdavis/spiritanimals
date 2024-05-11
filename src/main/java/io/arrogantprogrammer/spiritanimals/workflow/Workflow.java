@@ -20,18 +20,18 @@ public class Workflow {
     })
     SpiritAnimalRecord spiritAnimalRecord;
 
-    @Lob
+    @Lob @Column(columnDefinition = "TEXT")
     String whatIs;
 
-    @Lob
+    @Lob @Column(columnDefinition = "TEXT")
     String poem;
 
-    @Lob
+    @Lob @Column(columnDefinition = "TEXT")
     String updatedPoem;
 
     boolean liked;
 
-    @Lob
+    @Lob @Column(columnDefinition = "TEXT")
     String feedback;
 
     public Workflow() {
