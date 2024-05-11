@@ -38,4 +38,24 @@ public class FeedbackServiceImpl implements FeedbackService {
             return new FeedbackRecord(feedback.getWorkflowId(), feedback.getFeedback(), feedback.getSentiment());
         }).toList();
     }
+
+    public List<FeedbackRecord> allPositiveFeedback() {
+        return feedbackRepository.list("sentiment = ?1", SENTIMENT.POSITIVE).stream().map(feedback -> {
+            return new FeedbackRecord(feedback.getWorkflowId(), feedback.getFeedback(), feedback.getSentiment());
+        }).toList();
+    }
+
+    @Override
+    public List<FeedbackRecord> allNegativeFeedback() {
+        return feedbackRepository.list("sentiment = ?1", SENTIMENT.NEGATIVE).stream().map(feedback -> {
+            return new FeedbackRecord(feedback.getWorkflowId(), feedback.getFeedback(), feedback.getSentiment());
+        }).toList();
+    }
+
+    @Override
+    public List<FeedbackRecord> allNeutralFeedback() {
+        return feedbackRepository.list("sentiment = ?1", SENTIMENT.NEUTRAL).stream().map(feedback -> {
+            return new FeedbackRecord(feedback.getWorkflowId(), feedback.getFeedback(), feedback.getSentiment());
+        }).toList();
+    }
 }

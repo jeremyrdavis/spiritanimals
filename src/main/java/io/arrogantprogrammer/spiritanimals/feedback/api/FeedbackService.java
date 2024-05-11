@@ -9,4 +9,10 @@ public interface FeedbackService {
     void processFeedback(FeedbackRecord feedbackRecord);
 
     List<FeedbackRecord> allFeedback();
+
+    List<FeedbackRecord> allPositiveFeedback();
+
+    List<FeedbackRecord> allNegativeFeedback();
+
+    List<FeedbackRecord> allNeutralFeedback();
 }

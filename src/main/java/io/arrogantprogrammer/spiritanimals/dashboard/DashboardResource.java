@@ -32,15 +32,12 @@ public class DashboardResource {
         Log.infof("Getting spirit animal by id: %s", id);
         return Response.ok(spiritAnimalService.getSpiritAnimalById(id)).build();
     }
-
     @GET
     @Path("/spiritanimals")
     public Response allSpiritAnimals() {
          Log.infof("Getting all spirit animals");
         return Response.ok(spiritAnimalService.allSpiritAnimals()).build();
     }
-
-
     @GET
     @Path("/feedback")
     public Response allFeedback() {
@@ -49,7 +46,30 @@ public class DashboardResource {
          Log.debugf("Returning %s feedbacks", allFeedback.size());
         return Response.ok().entity(allFeedback).build();
     }
-
+    @GET
+    @Path("/feedback/positive")
+    public Response allPositiveFeedback() {
+        Log.infof("Getting all feedback");
+        List<FeedbackRecord> allFeedback = feedbackService.allPositiveFeedback();
+        Log.debugf("Returning %s feedbacks", allFeedback.size());
+        return Response.ok().entity(allFeedback).build();
+    }
+    @GET
+    @Path("/feedback/negative")
+    public Response allNegativeFeedback() {
+        Log.infof("Getting all feedback");
+        List<FeedbackRecord> allFeedback = feedbackService.allNegativeFeedback();
+        Log.debugf("Returning %s feedbacks", allFeedback.size());
+        return Response.ok().entity(allFeedback).build();
+    }
+    @GET
+    @Path("/feedback/neutral")
+    public Response allNeutralFeedback() {
+        Log.infof("Getting all feedback");
+        List<FeedbackRecord> allFeedback = feedbackService.allNeutralFeedback();
+        Log.debugf("Returning %s feedbacks", allFeedback.size());
+        return Response.ok().entity(allFeedback).build();
+    }
     @GET
     @Path("/workflow/all")
     public Response allWorkflows() {
