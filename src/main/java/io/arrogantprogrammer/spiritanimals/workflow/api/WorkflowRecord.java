@@ -90,7 +90,7 @@ public record WorkflowRecord(
         }
 
         public Builder withFeedback(String feedback) {
-            this.feedback = Optional.of(feedback);
+            this.feedback = Optional.ofNullable(feedback);
             return this;
         }
 

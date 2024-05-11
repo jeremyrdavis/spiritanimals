@@ -1,6 +1,9 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalService;
+import io.arrogantprogrammer.spiritanimals.feedback.FeedbackAiClient;
+import io.arrogantprogrammer.spiritanimals.feedback.SENTIMENT;
+import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.quarkus.logging.Log;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
@@ -30,6 +33,9 @@ public class TestWorkflowFeedback {
     @InjectMock
     WorkflowRespository workflowRespository;
 
+    @InjectMock
+    FeedbackAiClient feedbackAiClient;
+
     @BeforeEach
     public void setUp() {
         Log.infof("Setting up test");
@@ -37,6 +43,8 @@ public class TestWorkflowFeedback {
         workflow.id = 1L;
         Mockito.when(workflowRespository.findById(anyLong())).thenReturn(workflow);
         doNothing().when(workflowRespository).persist(any(Workflow.class));
+
+        Mockito.when(feedbackAiClient.analyze(anyLong(), any())).thenReturn(new FeedbackRecord(1L, "Good", SENTIMENT.POSITIVE));
     }
 
     @AfterEach

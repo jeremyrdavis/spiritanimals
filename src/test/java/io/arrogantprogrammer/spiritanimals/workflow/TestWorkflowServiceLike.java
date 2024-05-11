@@ -22,7 +22,7 @@ import static org.mockito.Mockito.doNothing;
 @QuarkusTest
 public class TestWorkflowServiceLike {
 
-    @InjectSpy
+    @InjectMock
     SpiritAnimalService spiritAnimalService;
 
     @InjectMock
@@ -42,8 +42,8 @@ public class TestWorkflowServiceLike {
                 false,
                 null
         ));
-        ArgumentCaptor<Workflow> argumentCaptor = ArgumentCaptor.forClass(Workflow.class);
-        doNothing().when(workflowRespository).persist(argumentCaptor.capture());
+        doNothing().when(workflowRespository).persist(any(Workflow.class));
+        doNothing().when(spiritAnimalService).like(any(Long.class));
     }
 
     @AfterEach
