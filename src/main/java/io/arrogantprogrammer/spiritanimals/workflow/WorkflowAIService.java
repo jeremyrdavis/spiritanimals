@@ -17,7 +17,7 @@ public interface WorkflowAIService {
     String writeAPoem(final String animalName, final String poet);
 
     @UserMessage("""
-                Add {topic} the the following poem: {poem}.
+                Add the unrelated topic, {topic}, to the the following poem: {poem}.
             """)
     String addThisToThePoem(final String topic, final String poem);
 }

@@ -4,13 +4,9 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.arrogantprogrammer.spiritanimals.feedback.api.FeedbackRecord;
 import io.quarkiverse.langchain4j.RegisterAiService;
-import io.smallrye.faulttolerance.api.RateLimit;
-import org.eclipse.microprofile.faulttolerance.Fallback;
-import org.eclipse.microprofile.faulttolerance.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.temporal.ChronoUnit;
 
 @RegisterAiService
 public interface FeedbackAiClient {
