@@ -37,7 +37,11 @@ public class SpiritAnimalServiceTest {
                 new SpiritAnimal("Spock", "dog", true),
                 new SpiritAnimal("Uhuru", "cat", true),
                 new SpiritAnimal("Scotty", "lion", true),
-                new SpiritAnimal("Bones", "tiger", false)
+                new SpiritAnimal("Bones", "tiger", false),
+                new SpiritAnimal("Chekov", "bear", false),
+                new SpiritAnimal("Sulu", "wolf", false),
+                new SpiritAnimal("Chapel", "deer", false),
+                new SpiritAnimal("Rand", "rabbit", false)
         ).collect(Collectors.toList()));
 
         Mockito.when(spiritAnimalRepository.findById(any(Long.class))).thenReturn(new SpiritAnimal("Kirk", "elephant", true));

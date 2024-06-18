@@ -3,7 +3,7 @@ package io.arrogantprogrammer.spiritanimals.workflow;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService(tools = {AnimalApiTool.class})
+@RegisterAiService //(tools = {AnimalApiTool.class})
 public interface WorkflowAIService {
 
     @UserMessage("""
@@ -17,7 +17,7 @@ public interface WorkflowAIService {
     String writeAPoem(final String animalName, final String poet);
 
     @UserMessage("""
-                Add the unrelated topic, {topic}, to the the following poem: {poem}.
+                Add the unrelated topic, {topic}, which is not an animal, to the the following poem: {poem}.
             """)
     String addThisToThePoem(final String topic, final String poem);
 }
