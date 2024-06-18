@@ -16,7 +16,7 @@ public enum POETICADDITION {
     HARRYKANE("Harry Kane"),
     BEEFJERKY("beef jerky"),
     ROLLERCOASTERS("roller coasters"),
-    VEGANZUCCINIMUFFINS("vegan blueberry muffins");
+    VEGANBLUEBERRYIMUFFINS("vegan blueberry muffins");
 
     public final String addition;
 
@@ -24,7 +24,11 @@ public enum POETICADDITION {
         this.addition = addition;
     }
 
-    public static String addition() {
-        return POETICADDITION.values()[new Random().nextInt(POETICADDITION.values().length - 1) + 1].addition;
+    public static POETICADDITION randomAddition() {
+        return POETICADDITION.values()[new Random().nextInt(POETICADDITION.values().length)];
+    }
+
+    public String addition() {
+        return this.addition;
     }
 }

@@ -35,10 +35,12 @@ public class TestWorkflowServiceAddToPoem {
     @BeforeEach
     public void setUp() {
         Log.infof("Setting up test");
-        Mockito.when(workflowRespository.findById(any(Long.class))).thenReturn(new Workflow(
+        Mockito.when(workflowRespository.findById(any(Long.class))).thenReturn(
+                new Workflow(
                 new SpiritAnimalRecord(1L, "Peppermint Patty", "Moose", false),
                 WorkflowTestUtils.WHAT_IS_A_MOOSE,
                 WorkflowTestUtils.MOOSE_POEM,
+                null,
                 null,
                 false,
                 null

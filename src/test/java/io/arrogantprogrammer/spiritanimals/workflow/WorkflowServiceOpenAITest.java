@@ -7,8 +7,6 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -50,7 +48,7 @@ public class WorkflowServiceOpenAITest {
     @Test
     public void testAddThisToThePoem() {
         Log.infof("Testing addThisToThePoem");
-        String addThisToThePoemResult = spiritAnimalService.callLlmAddToPoem("moose", WorkflowTestUtils.MOOSE_POEM);
+        String addThisToThePoemResult = spiritAnimalService.callLlAddToPoem("moose", WorkflowTestUtils.MOOSE_POEM);
         assertNotNull(addThisToThePoemResult);
         assertEquals(WorkflowTestUtils.MOOSE_POEM_WITH_EDDIE_MURPHY, addThisToThePoemResult);
     }

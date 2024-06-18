@@ -50,7 +50,7 @@ public class SpiritAnimalServiceTest {
     @Test
     public void testAllSpiritAnimals() {
         Log.infof("Running testAllSpiritAnimals");
-        assertEquals(5, spiritAnimalService.allSpiritAnimals().size());
+        assertEquals(9, spiritAnimalService.allSpiritAnimals().size());
     }
 
     @Test

@@ -44,6 +44,7 @@ public class TestWorkflowServiceFeedback {
                 WorkflowTestUtils.WHAT_IS_A_MOOSE,
                 WorkflowTestUtils.MOOSE_POEM,
                 null,
+                null,
                 false,
                 null
         ));

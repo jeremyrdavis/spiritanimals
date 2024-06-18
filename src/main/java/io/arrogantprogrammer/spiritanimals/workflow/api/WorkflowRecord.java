@@ -1,5 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.workflow.api;
 
+import io.arrogantprogrammer.spiritanimals.domain.POETICADDITION;
+
 import java.util.Optional;
 
 /**
@@ -12,11 +14,12 @@ import java.util.Optional;
  * @param whatIs
  * @param poem
  * @param updatedPoem
+ * @param poeticAddition
  * @param feedback
  */
 public record WorkflowRecord(
         Long id, String name, String spiritAnimal, boolean liked,
-       Optional<String> whatIs, Optional<String> poem, Optional<String> updatedPoem, Optional<String> feedback){
+        Optional<String> whatIs, Optional<String> poem, Optional<String> updatedPoem, Optional<String> poeticAddition, Optional<String> feedback){
 
     /**
      * Convenience constructor for creating a new SpiritAnimalWorkflow with the basic information.
@@ -25,7 +28,7 @@ public record WorkflowRecord(
      * @param spiritAnimal
      */
     public WorkflowRecord(Long id, String name, String spiritAnimal) {
-        this(id, name, spiritAnimal, false, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        this(id, name, spiritAnimal, false, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(),Optional.empty());
     }
 
     /**
@@ -39,6 +42,8 @@ public record WorkflowRecord(
         Optional<String> whatIs;
         Optional<String> poem;
         Optional<String> updatedPoem;
+
+        Optional<String> poeticAddition;
         Optional<String> feedback;
 
         public Builder(){
@@ -74,6 +79,11 @@ public record WorkflowRecord(
             return this;
         }
 
+        public Builder withPoeticAddition(String poeticAddition) {
+            this.poeticAddition = Optional.ofNullable(poeticAddition);
+            return this;
+        }
+
         public Builder liked(boolean liked) {
             this.liked = liked;
             return this;
@@ -95,7 +105,7 @@ public record WorkflowRecord(
         }
 
         public WorkflowRecord build() {
-            return new WorkflowRecord(id, name, spiritAnimal, liked, whatIs, poem, updatedPoem, feedback);
+            return new WorkflowRecord(id, name, spiritAnimal, liked, whatIs, poem, updatedPoem, poeticAddition, feedback);
         }
 
     }

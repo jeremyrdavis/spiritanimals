@@ -1,6 +1,7 @@
 package io.arrogantprogrammer.spiritanimals.workflow;
 
 import io.arrogantprogrammer.spiritanimals.core.api.SpiritAnimalRecord;
+import io.arrogantprogrammer.spiritanimals.domain.POETICADDITION;
 import jakarta.persistence.*;
 
 import java.util.Optional;
@@ -29,6 +30,9 @@ public class Workflow {
     @Column(columnDefinition = "TEXT")
     String updatedPoem;
 
+    @Column(columnDefinition = "TEXT")
+    String poeticAddition;
+
     boolean liked;
 
     @Column(columnDefinition = "TEXT")
@@ -37,11 +41,12 @@ public class Workflow {
     public Workflow() {
     }
 
-    Workflow(SpiritAnimalRecord spiritAnimalRecord, String whatIs, String poem, String updatedPoem, boolean liked, String feedback) {
+    Workflow(SpiritAnimalRecord spiritAnimalRecord, String whatIs, String poem, String updatedPoem, String poeticaddition, boolean liked, String feedback) {
         this.spiritAnimalRecord = spiritAnimalRecord;
         this.whatIs = whatIs;
         this.poem = poem;
         this.updatedPoem = updatedPoem;
+        this.poeticAddition = poeticaddition;
         this.liked = liked;
         this.feedback = feedback;
     }
@@ -53,6 +58,7 @@ public class Workflow {
                 ", whatIs='" + whatIs + '\'' +
                 ", poem='" + poem + '\'' +
                 ", updatedPoem='" + updatedPoem + '\'' +
+                ", poeticAddition=" + poeticAddition +
                 ", isLiked=" + liked +
                 ", feedback='" + feedback + '\'' +
                 ", id=" + id +
@@ -93,6 +99,14 @@ public class Workflow {
 
     public void setUpdatedPoem(String updatedPoem) {
         this.updatedPoem = updatedPoem;
+    }
+
+    String getPoeticAddition() {
+        return poeticAddition;
+    }
+
+    void setPoeticAddition(String poeticAddition) {
+        this.poeticAddition = poeticAddition;
     }
 
     public boolean isLiked() {

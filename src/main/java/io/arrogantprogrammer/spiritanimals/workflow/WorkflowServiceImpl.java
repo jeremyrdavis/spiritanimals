@@ -91,12 +91,14 @@ public class WorkflowServiceImpl implements WorkflowService {
 
     @Override
     public WorkflowRecord addToPoem(final Long id) {
-        String poeticAddition = POETICADDITION.addition();
-         Log.debugf("Add %s the poem for workflow: %s", poeticAddition, id);
+        POETICADDITION poeticAddition = POETICADDITION.randomAddition();
+        Log.debugf("Add %s the poem for workflow: %s", poeticAddition, id);
         Workflow workflow = workflowRespository.findById(id);
+        workflow.setPoeticAddition(poeticAddition.addition());
 
-        String updatedPoem = callLlmAddToPoem(poeticAddition, workflow.getPoem().orElse(POETICADDITION.addition()));
+        String updatedPoem = callLlAddToPoem(poeticAddition.addition(), workflow.getPoem().get());
         workflow.setUpdatedPoem(updatedPoem);
+        Log.debugf("Updated poem: %s", updatedPoem);
         workflowRespository.persist(workflow);
 
         return new WorkflowRecord.Builder()
@@ -105,10 +107,11 @@ public class WorkflowServiceImpl implements WorkflowService {
                 .withSpiritAnimal(workflow.getSpiritAnimalRecord().animalName())
                 .withPoem(workflow.poem)
                 .withUpdatedPoem(workflow.updatedPoem)
+                .withPoeticAddition(workflow.poeticAddition)
                 .build();
     }
 
-    String callLlmAddToPoem(String poeticAddition, String poem) {
+    String callLlAddToPoem(String poeticAddition, String poem) {
         return workflowAIService.addThisToThePoem(poeticAddition, poem);
     }
 

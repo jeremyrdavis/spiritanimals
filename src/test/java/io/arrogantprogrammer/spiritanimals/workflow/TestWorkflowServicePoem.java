@@ -41,6 +41,7 @@ public class TestWorkflowServicePoem {
                 WorkflowTestUtils.WHAT_IS_A_MOOSE,
                 null,
                 null,
+                null,
                 false,
                 null
         ));
